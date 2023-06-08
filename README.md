@@ -1,7 +1,5 @@
 # RPA-MIT-ReferenceData
-
-## Introduction 
-A minimal api for suppling invoice template reference data (.NET 6)
+A minimal api for supplying invoice template reference data (.NET 6)
 
 ## Running Application
 ### Requirements
@@ -32,15 +30,15 @@ This project uses dotnet user-secrets to store connection strings.
 Use the following commands to init user-secrets in the project:
 
 ```ps
-dotnet user-secrets init --project EST.MIT.ReferenceData.Api
+dotnet user-secrets init --project RPA.MIT.ReferenceData.Api
 ```
 
-The following secrets need to be set in the EST.MIT.ReferenceData.Api project:
+The following secrets need to be set in the RPA.MIT.ReferenceData.Api project:
 |Secret|Description|
 |------|-----------|
 |DbConnectionString|PostgreSQL connection string|
 
-The database connection should connect to a database called `est_mit_reference_data`.
+The database connection should connect to a database called `rpa_mit_reference_data`.
 
 ### Add Private Package Feed
 This project uses a private NuGet package to store seed data.
@@ -53,7 +51,7 @@ Follow this guide to add the private feed to Visual Studio:
 This project uses EF Core to handle database migrations. Run the following command to update migrations on database.
 
 ```ps
-dotnet ef database update --project .\EST.MIT.ReferenceData.Api
+dotnet ef database update --project .\RPA.MIT.ReferenceData.Api
 ```
 
 #### Seeding Reference Data
@@ -64,13 +62,13 @@ Reference data can be seeded to the database at application startup by using the
 ### Starting Api
 To start the Api without seeding reference data use the following:
 ```ps
-cd EST.MIT.ReferenceData.Api
+cd RPA.MIT.ReferenceData.Api
 dotnet run
 ```
 
 To seed reference data before start up, use the following variation:
 ```ps
-cd EST.MIT.ReferenceData.Api
+cd RPA.MIT.ReferenceData.Api
 dotnet run --seed-ref-data
 ```
 
