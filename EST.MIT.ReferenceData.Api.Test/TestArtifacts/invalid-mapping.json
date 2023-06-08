@@ -1,0 +1,26 @@
+﻿{
+  "ap": {
+    "ea": {
+      "cs": {
+        "eu": {
+          "coa": "EAAPCoA",
+          "funds": [
+            "random"
+          ],
+          "accounts": [
+            "random"
+          ],
+          "schemes": [
+            "random"
+          ],
+          "deliveryBodies": [
+            "EA00"
+          ],
+          "marketingYears": [
+            "random"
+          ]
+        }
+      }
+    }
+  }
+}
