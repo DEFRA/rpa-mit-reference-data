@@ -1,0 +1,11 @@
+version: '0.1'
+
+services:
+  rpa-mit-reference-data:
+    build:
+      context: .
+      target: development
+    image: rpa-mit-reference-data-snyk
+    volumes:
+      - ./scripts/extract-project-assets:/home/dotnet/extract-project-assets.sh
+      - ./RPA.MIT.ReferenceData.Api:/home/dotnet/RPA.MIT.ReferenceData.Api

@@ -24,21 +24,17 @@ Follow this guide to install EF Core global tools:
 
 [Entity Framework Core tools reference - .NET Core CLI](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-### Secret Configuration
-This project uses dotnet user-secrets to store connection strings.
+### Environment Variables
+The following environment variables are required by the application container.
 
-Use the following commands to init user-secrets in the project:
-
-```ps
-dotnet user-secrets init --project RPA.MIT.ReferenceData.Api
-```
-
-The following secrets need to be set in the RPA.MIT.ReferenceData.Api project:
-|Secret|Description|
-|------|-----------|
-|DbConnectionString|PostgreSQL connection string|
-
-The database connection should connect to a database called `rpa_mit_reference_data`.
+| Name                	| Default  	|
+|---------------------	|----------	|
+| RPA_PACKAGE_FEED    	|          	|
+| NUGET_USERNAME      	| PAT      	|
+| NUGET_PAT           	|          	|
+| POSTGRES_CONNECTION 	|          	|
+| POSTGRES_USER       	| postgres 	|
+| POSTGRES_PASS       	| password 	|
 
 ### Add Private Package Feed
 This project uses a private NuGet package to store seed data.

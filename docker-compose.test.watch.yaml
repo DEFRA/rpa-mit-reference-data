@@ -1,0 +1,8 @@
+version: '0.1'
+
+services:
+  rpa-mit-reference-data:
+    build:
+      target: development
+    container_name: rpa-mit-reference-data
+    entrypoint: dotnet watch --project ./RPA.MIT.ReferenceData.Api.Tests test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./test-output/'
