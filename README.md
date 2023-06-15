@@ -51,9 +51,15 @@ dotnet ef database update --project .\RPA.MIT.ReferenceData.Api
 ```
 
 #### Seeding Reference Data
-**Important**: The seed ref data function will reset the connected database to reference data defaults. For this reason, the `--seed-ref-data` argument will only run in a dev environment.
+**Important**: The seed ref data provider will reset the connected database to reference data defaults.
 
-Reference data can be seeded to the database at application startup by using the `--seed-ref-data` argument.
+The seed provider uses dotnet user secrets to store Postgres connection parameters.
+
+A separate project has been created to provide seed data which can be ran using:
+```cs
+cd RPA.MIT.ReferenceData.SeedProvider
+dotnet run
+```
 
 ### Starting Api
 To start the Api without seeding reference data use the following:

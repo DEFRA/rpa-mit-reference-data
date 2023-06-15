@@ -4,10 +4,6 @@ services:
   rpa-mit-reference-data:
     build:
       context: .
-      args:
-        - Package_Feed=${RPA_PACKAGE_FEED}
-        - Nuget_Username=${NUGET_USERNAME:-PAT}
-        - Nuget_PAT=${NUGET_PAT}
       target: production
     image: rpa-mit-reference-data
     container_name: rpa-mit-reference-data

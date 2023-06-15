@@ -4,10 +4,11 @@ using System.Reflection;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using RPA.MIT.ReferenceData.Data;
 using RPA.MIT.ReferenceData.Data.Models.Codes;
 using RPA.MIT.ReferenceData.Data.Models.RouteComponents;
 
-namespace RPA.MIT.ReferenceData.Data.SeedData;
+namespace RPA.MIT.ReferenceData.SeedProvider.SeedData;
 
 [ExcludeFromCodeCoverage]
 public static class SeedProvider

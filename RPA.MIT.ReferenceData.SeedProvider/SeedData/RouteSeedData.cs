@@ -4,10 +4,11 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
+using RPA.MIT.ReferenceData.Data;
 using RPA.MIT.ReferenceData.Data.Models;
 using RPA.MIT.ReferenceData.Data.Models.Codes;
 
-namespace RPA.MIT.ReferenceData.Data.SeedData;
+namespace RPA.MIT.ReferenceData.SeedProvider.SeedData;
 
 #nullable disable
 

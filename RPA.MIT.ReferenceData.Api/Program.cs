@@ -18,11 +18,6 @@ builder.Services.AddReferenceDataServices();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() && args.Contains("--seed-ref-data"))
-{
-    app.UseReferenceDataSeeding();
-}
-
 app.UseReferenceDataEndpoints();
 app.UseSwaggerEndpoints();
 
