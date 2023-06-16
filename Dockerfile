@@ -11,7 +11,11 @@ LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
 COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
 
-RUN mkdir -p /home/dotnet/RPA.MIT.ReferenceData.Data/ /home/dotnet/RPA.MIT.ReferenceData.Api/ /home/dotnet/RPA.MIT.ReferenceData.Api.Test/
+RUN mkdir -p -m 777 /home/dotnet/RPA.MIT.ReferenceData.Data/ /home/dotnet/RPA.MIT.ReferenceData.Api/ /home/dotnet/RPA.MIT.ReferenceData.Api.Test/
+
+RUN mkdir -p -m 777 /home/dotnet/RPA.MIT.ReferenceData.Data/bin/Debug/net6.0/
+RUN mkdir -p -m 777 /home/dotnet/RPA.MIT.ReferenceData.Api/bin/Debug/net6.0/
+RUN mkdir -p -m 777 /home/dotnet/RPA.MIT.ReferenceData.Test/bin/Debug/net6.0/
 
 COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Data/*.csproj ./RPA.MIT.ReferenceData.Data/
 RUN dotnet restore ./RPA.MIT.ReferenceData.Data/RPA.MIT.ReferenceData.Data.csproj
@@ -27,8 +31,6 @@ COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Data/ ./RPA.MIT.ReferenceData
 COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Api.Test/ ./RPA.MIT.ReferenceData.Api.Test/
 
 RUN dotnet publish ./RPA.MIT.ReferenceData.Api/ -c Release -o /home/dotnet/out
-
-RUN chmod -R 777 /home/dotnet/RPA.MIT.ReferenceData.Api/bin/Debug/net6.0/*
 
 ARG PORT=3000
 ENV PORT ${PORT}
