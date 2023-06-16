@@ -9,7 +9,7 @@ LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
 COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
 
-RUN mkdir -p /home/dotnet/RPA.MIT.ReferenceData.Data/ /home/dotnet/RPA.MIT.ReferenceData.Api/ /home/dotnet/RPA.MIT.ReferenceData.Api.Test/
+RUN mkdir -p /home/dotnet/RPA.MIT.ReferenceData.Data/ /home/dotnet/RPA.MIT.ReferenceData.Api/bin/Debug/net6.0 /home/dotnet/RPA.MIT.ReferenceData.Api.Test/
 
 COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Data/*.csproj ./RPA.MIT.ReferenceData.Data/
 RUN dotnet restore ./RPA.MIT.ReferenceData.Data/RPA.MIT.ReferenceData.Data.csproj
