@@ -29,10 +29,7 @@ The following environment variables are required by the application container.
 
 | Name                	| Default  	|
 |---------------------	|----------	|
-| RPA_PACKAGE_FEED    	|          	|
-| NUGET_USERNAME      	| PAT      	|
-| NUGET_PAT           	|          	|
-| POSTGRES_CONNECTION 	|          	|
+| POSTGRES_HOST 	    |          	|
 | POSTGRES_USER       	| postgres 	|
 | POSTGRES_PASS       	| password 	|
 
