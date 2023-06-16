@@ -26,7 +26,7 @@ COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Api.Test/ ./RPA.MIT.Reference
 
 RUN dotnet publish ./RPA.MIT.ReferenceData.Api/ -c Release -o /home/dotnet/out
 
-RUN chmod -R 777 /home/dotnet/RPA.MIT.ReferenceData.Api/bin/Debug/net6.0
+RUN chmod -R 777 /home/dotnet/RPA.MIT.ReferenceData.Api/bin/Debug/net6.0/*
 
 ARG PORT=3000
 ENV PORT ${PORT}
