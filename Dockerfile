@@ -7,6 +7,8 @@ ARG PARENT_VERSION
 
 LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
+COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
+
 RUN mkdir -p /home/dotnet/RPA.MIT.ReferenceData.Data/ /home/dotnet/RPA.MIT.ReferenceData.Api/ /home/dotnet/RPA.MIT.ReferenceData.Api.Test/
 
 COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Data/*.csproj ./RPA.MIT.ReferenceData.Data/
@@ -24,11 +26,13 @@ COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Api.Test/ ./RPA.MIT.Reference
 
 RUN dotnet publish ./RPA.MIT.ReferenceData.Api/ -c Release -o /home/dotnet/out
 
+RUN chown -R dotnet ./RPA.MIT.ReferenceData.Api/*
+
 ARG PORT=3000
 ENV PORT ${PORT}
 EXPOSE ${PORT}
 
-CMD dotnet watch --project ./RPA.MIT.ReferenceData.Api run --urls http://*:${PORT}
+CMD dotnet watch --project ./RPA.MIT.ReferenceData.Api run --urls "http://*:${PORT}"
 
 # Production
 FROM defradigital/dotnetcore:$PARENT_VERSION AS production
