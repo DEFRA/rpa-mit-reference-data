@@ -5,8 +5,6 @@ FROM defradigital/dotnetcore-development:$PARENT_VERSION AS development
 
 ARG PARENT_VERSION
 
-USER root
-
 LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
 COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
