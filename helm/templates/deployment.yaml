@@ -1,0 +1,11 @@
+{{- include "ffc-helm-library.deployment" (list . "rpa-mit-reference-data.deployment") -}}
+{{- define "rpa-mit-reference-data.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "ffc-helm-library.container" (list . "rpa-mit-reference-data.container") }}
+      volumes:
+      - name: {{ .Values.volumeMounts.name }}
+        emptyDir: {}
+{{- end -}}

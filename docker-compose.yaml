@@ -10,10 +10,12 @@ services:
     depends_on:
       - rpa-mit-reference-data-postgres
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-reference-data-postgres}
+      POSTGRES_HOST: ${POSTGRES_HOST:-host.docker.internal}
       POSTGRES_DB: rpa_mit_reference_data
-      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
+      POSTGRES_PORT: "5432"
+      SCHEMA_DEFAULT: ${POSTGRES_SCHEMA_NAME:-public}
 
   rpa-mit-reference-data-postgres:
     image: postgres:15.3-alpine

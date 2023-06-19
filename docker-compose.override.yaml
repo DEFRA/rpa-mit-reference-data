@@ -4,11 +4,6 @@ services:
   rpa-mit-reference-data:
     build:
       target: development
-    environment:
-      POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-reference-data-postgres}
-      POSTGRES_DB: rpa_mit_reference_data
-      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
     ports:
       - "3000:3000"
     volumes:
