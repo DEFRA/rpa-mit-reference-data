@@ -1,5 +1,5 @@
 {{- include "ffc-helm-library.container-config-map" (list . "rpa-mit-reference-data.config-map") -}}
-{{- define "rpa-mit-reference-data-core.config-map" -}}
+{{- define "rpa-mit-reference-data.config-map" -}}
 data:
   PORT: {{ .Values.container.port | quote }}
   POSTGRES_HOST: {{ .Values.postgresService.postgresqlHost | quote }}
