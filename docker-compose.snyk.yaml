@@ -6,6 +6,8 @@ services:
       context: .
       target: development
     image: rpa-mit-reference-data-snyk
+    command: extract-project-assets.sh
+    entrypoint: /bin/sh
     volumes:
-      - ./scripts/extract-project-assets:/home/dotnet/extract-project-assets.sh
-      - ./RPA.MIT.ReferenceData.Api:/home/dotnet/RPA.MIT.ReferenceData.Api
+      - ./scripts/extract-project-assets.sh:/home/dotnet/extract-project-assets.sh
+      - ./RPA.MIT.ReferenceData.Api/obj:/home/dotnet/synk
