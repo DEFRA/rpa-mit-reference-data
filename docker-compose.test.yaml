@@ -8,8 +8,6 @@ services:
     container_name: rpa-mit-reference-data-test
     entrypoint: dotnet test ./RPA.MIT.ReferenceData.Api.Test/RPA.MIT.ReferenceData.Api.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./test-output/'
     volumes:
-      - ./RPA.MIT.ReferenceData.Api:/home/dotnet/RPA.MIT.ReferenceData.Api
-      - ./RPA.MIT.ReferenceData.Tests:/home/dotnet/RPA.MIT.ReferenceData.Tests
       - ./test-output:/home/dotnet/RPA.MIT.ReferenceData.Api.Tests/test-output
 
   rpa-mit-reference-data-postgres:
