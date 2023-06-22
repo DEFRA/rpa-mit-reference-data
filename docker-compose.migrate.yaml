@@ -19,24 +19,24 @@ services:
     environment:
       << : [*common-migration, *common-postgres]
     entrypoint: >
-      sh -c "/scripts/migration/database-up"
+      sh -c "/liquibase/scripts/migration/database-up"
     depends_on:
       - rpa-mit-reference-data-postgres
     volumes:
       - ./changelog:/liquibase/changelog
-      - ./scripts:/scripts
+      - ./scripts:/liquibase/scripts
 
   database-down:
     image: liquibase/liquibase:3.10.x
     environment:
       << : [*common-migration, *common-postgres]
     entrypoint: >
-      sh -c "/scripts/migration/database-down"
+      sh -c "/liquibase/scripts/database-down"
     depends_on:
       - rpa-mit-reference-data-postgres
     volumes:
       - ./changelog:/liquibase/changelog
-      - ./scripts:/scripts
+      - ./scripts:/liquibase/scripts
 
   rpa-mit-reference-data-postgres:
     image: postgres:15.3-alpine
