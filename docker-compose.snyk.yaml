@@ -10,4 +10,4 @@ services:
     entrypoint: /bin/sh
     volumes:
       - ./scripts/extract-project-assets.sh:/home/dotnet/extract-project-assets.sh
-      - ./RPA.MIT.ReferenceData.Api/obj:/home/dotnet/synk
+      - ./RPA.MIT.ReferenceData.Api/obj:/home/dotnet/snyk

@@ -34,7 +34,7 @@ The following environment variables are required by the application container.
 | POSTGRES_PASS       	| password 	|
 
 ### Add Private Package Feed
-This project uses a private NuGet package to store seed data.
+This project uses a private NuGet package to store seed data for the SeedProvider project.
 
 Follow this guide to add the private feed to Visual Studio:
 
@@ -47,7 +47,7 @@ This project uses EF Core to handle database migrations. Run the following comma
 dotnet ef database update --project .\RPA.MIT.ReferenceData.Api
 ```
 
-#### Seeding Reference Data
+### Seeding Reference Data
 **Important**: The seed ref data provider will reset the connected database to reference data defaults.
 
 The seed provider uses dotnet user secrets to store Postgres connection parameters.
@@ -57,6 +57,28 @@ A separate project has been created to provide seed data which can be ran using:
 cd RPA.MIT.ReferenceData.SeedProvider
 dotnet run
 ```
+
+This application dynamically seeds reference data into the database based on Json files from the `RPA.MIT.Reference` package.
+
+#### Export Reference Data
+You can export the seed data to SQL scripts by using `docker-compose.seed.yaml`.
+
+```ps
+docker compose -f docker-compose.seed.yaml
+```
+
+The seed operation has completed when the following log entry is displayed:
+```log
+info: Program[0]
+      Seeding reference data completed in 14 seconds
+```
+
+Once the logs show that the seed operation has completed, run the following command to dump tables:
+```ps
+docker exec -it rpa-mit-referencedata-rpa-mit-reference-data-postgres-1 sh /home/postgres/extract-seed-data.sh
+```
+
+This will store the SQL INSERT scripts for each table in the `mit_reference_data` database in `{SOLUTION_DIR}/seed-data-scripts`.
 
 ### Starting Api
 To start the Api without seeding reference data use the following:

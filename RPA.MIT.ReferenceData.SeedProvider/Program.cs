@@ -9,6 +9,7 @@ var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 var logger = loggerFactory.CreateLogger<Program>();
 
 var config = new ConfigurationBuilder()
+    .AddEnvironmentVariables()
     .AddUserSecrets<Program>()
     .AddJsonFile("appsettings.json")
     .Build();

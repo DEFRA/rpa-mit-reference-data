@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  rpa-mit-reference-seed-provider:
+    build:
+      context: .
+      target: development
+      dockerfile: "RPA.MIT.ReferenceData.SeedProvider/Dockerfile"
+      args:
+        - PACKAGE_FEED_URL=${PACKAGE_FEED_URL}
+        - PACKAGE_FEED_USERNAME=${PACKAGE_FEED_USERNAME:-PAT}
+        - PACKAGE_FEED_PAT=${PACKAGE_FEED_PAT}
+    image: rpa-mit-reference-seed-provider
+    container_name: rpa-mit-reference-seed-provider
+    depends_on:
+      - rpa-mit-reference-data-postgres
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-reference-data-postgres}
+      POSTGRES_DB: rpa_mit_reference_data
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
+      POSTGRES_PORT: "5432"
+      SCHEMA_DEFAULT: ${POSTGRES_SCHEMA_NAME:-public}
+    entrypoint: out/RPA.MIT.ReferenceData.SeedProvider
+
+  rpa-mit-reference-data-postgres:
+    image: postgres:15.3-alpine
+    environment:
+      POSTGRES_DB: rpa_mit_reference_data
+      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./scripts/extract-seed-data.sh:/home/postgres/extract-seed-data.sh
+      - ./seed-data-scripts:/home/postgres/seed-data-scripts/
