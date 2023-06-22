@@ -19,7 +19,7 @@ services:
     environment:
       << : [*common-migration, *common-postgres]
     entrypoint: >
-      sh -c "/scripts/migration/database-up.sh"
+      sh -c "/scripts/migration/database-up"
     depends_on:
       - rpa-mit-reference-data-postgres
     volumes:
@@ -31,7 +31,7 @@ services:
     environment:
       << : [*common-migration, *common-postgres]
     entrypoint: >
-      sh -c "/scripts/migration/database-down.sh"
+      sh -c "/scripts/migration/database-down"
     depends_on:
       - rpa-mit-reference-data-postgres
     volumes:
