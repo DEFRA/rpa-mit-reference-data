@@ -16,10 +16,11 @@ x-common-postgres: &common-postgres
 services:
   database-up:
     image: liquibase/liquibase:3.10.x
+    user: root
     environment:
       << : [*common-migration, *common-postgres]
     entrypoint: >
-      sh -c "/liquibase/scripts/migration/database-up"
+      sh -c "chmod +x /liquibase/scripts/* && /liquibase/scripts/migration/database-up"
     depends_on:
       - rpa-mit-reference-data-postgres
     volumes:
@@ -28,10 +29,11 @@ services:
 
   database-down:
     image: liquibase/liquibase:3.10.x
+    user: root
     environment:
       << : [*common-migration, *common-postgres]
     entrypoint: >
-      sh -c "/liquibase/scripts/database-down"
+      sh -c "chmod +x /liquibase/scripts/* && /liquibase/scripts/migration/database-down"
     depends_on:
       - rpa-mit-reference-data-postgres
     volumes:
