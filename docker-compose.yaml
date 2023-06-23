@@ -10,6 +10,7 @@ services:
     depends_on:
       - rpa-mit-reference-data-postgres
     environment:
+      COMPlus_EnableDiagnostics: 0
       POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-reference-data-postgres}
       POSTGRES_DB: rpa_mit_reference_data
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
