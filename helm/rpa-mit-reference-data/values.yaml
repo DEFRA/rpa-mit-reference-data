@@ -43,22 +43,6 @@ postgresService:
   postgresDb: rpa_mit_reference_data
   postgresSchema: public
 
-readinessProbe:
-  path: /healthy
-  port: 3000
-  initialDelaySeconds: 60
-  periodSeconds: 20
-  failureThreshold: 3
-  timeoutSeconds: 30
-
-livenessProbe:
-  path: /healthz
-  port: 3007
-  initialDelaySeconds: 70
-  periodSeconds: 20
-  failureThreshold: 3
-  timeoutSeconds: 30
-
 volumeMounts:
   mountPath: /var/www/
   name: core-app-dir
