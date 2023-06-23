@@ -25,20 +25,20 @@ Follow this guide to install EF Core global tools:
 [Entity Framework Core tools reference - .NET Core CLI](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
 ### Environment Variables
-The following environment variables are required by the application container.
+The following environment variables are required by the application.
 
-| Name                	| Default  	|
-|---------------------	|----------	|
-| POSTGRES_HOST 	    |          	|
-| POSTGRES_USER       	| postgres 	|
-| POSTGRES_PASS       	| password 	|
+| Name              	| Description                         	| Default                         	|
+|-------------------	|-------------------------------------	|---------------------------------	|
+| POSTGRES_HOST     	| Hostname of the Postgres server     	| rpa-mit-reference-data-postgres 	|
+| POSTGRES_DB       	| Name of the reference data database 	| rpa_mit_reference_data          	|
+| POSTGRES_USER     	| Postgres username                   	| postgres                        	|
+| POSTGRES_PASSWORD 	| Postgres password                   	| password                        	|
+| POSTGRES_PORT     	| Postgres server port                	| 5432                            	|
+| SCHEMA_DEFAULT    	| Default schema name                 	| public                          	|
 
-### Add Private Package Feed
-This project uses a private NuGet package to store seed data for the SeedProvider project.
+When running using Docker / Docker Compose these values are populated from environment variables.
 
-Follow this guide to add the private feed to Visual Studio:
-
-[Install NuGet packages with Visual Studio](https://learn.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops&tabs=windows)
+If running locally using `dotnet run` the values are populated from dotnet user-secrets. Please see [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows)
 
 ### Setup Database
 This project uses EF Core to handle database migrations. Run the following command to update migrations on database.
@@ -47,50 +47,10 @@ This project uses EF Core to handle database migrations. Run the following comma
 dotnet ef database update --project .\RPA.MIT.ReferenceData.Api
 ```
 
-### Seeding Reference Data
-**Important**: The seed ref data provider will reset the connected database to reference data defaults.
-
-The seed provider uses dotnet user secrets to store Postgres connection parameters.
-
-A separate project has been created to provide seed data which can be ran using:
-```cs
-cd RPA.MIT.ReferenceData.SeedProvider
-dotnet run
-```
-
-This application dynamically seeds reference data into the database based on Json files from the `RPA.MIT.Reference` package.
-
-#### Export Reference Data
-You can export the seed data to SQL scripts by using `docker-compose.seed.yaml`.
-
-```ps
-docker compose -f docker-compose.seed.yaml
-```
-
-The seed operation has completed when the following log entry is displayed:
-```log
-info: Program[0]
-      Seeding reference data completed in 14 seconds
-```
-
-Once the logs show that the seed operation has completed, run the following command to dump tables:
-```ps
-docker exec -it rpa-mit-referencedata-rpa-mit-reference-data-postgres-1 sh /home/postgres/extract-seed-data.sh
-```
-
-This will store the SQL INSERT scripts for each table in the `mit_reference_data` database in `{SOLUTION_DIR}/seed-data-scripts`.
-
 ### Starting Api
-To start the Api without seeding reference data use the following:
 ```ps
 cd RPA.MIT.ReferenceData.Api
 dotnet run
-```
-
-To seed reference data before start up, use the following variation:
-```ps
-cd RPA.MIT.ReferenceData.Api
-dotnet run --seed-ref-data
 ```
 
 Endpoints are accessible at https://localhost:7012.
