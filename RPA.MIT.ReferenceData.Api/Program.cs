@@ -4,10 +4,18 @@ using RPA.MIT.ReferenceData.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var host = builder.Configuration["POSTGRES_HOST"];
+var port = builder.Configuration["POSTGRES_PORT"];
+var db = builder.Configuration["POSTGRES_DB"];
+var user = builder.Configuration["POSTGRES_USER"];
+var pass = builder.Configuration["POSTGRES_PASSWORD"];
+
+var postgres = string.Format(builder.Configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
+
 builder.Services.AddDbContext<ReferenceDataContext>(options =>
 {
     options.UseNpgsql(
-        builder.Configuration["DbConnectionString"],
+        postgres,
         x => x.MigrationsAssembly("EST.MIT.ReferenceData.Data")
     )
     .UseSnakeCaseNamingConvention();
@@ -17,11 +25,6 @@ builder.Services.AddSwaggerServices();
 builder.Services.AddReferenceDataServices();
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment() && args.Contains("--seed-ref-data"))
-{
-    app.UseReferenceDataSeeding();
-}
 
 app.UseReferenceDataEndpoints();
 app.UseSwaggerEndpoints();

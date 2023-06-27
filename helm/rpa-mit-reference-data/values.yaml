@@ -1,0 +1,50 @@
+environment: development
+name: rpa-mit-reference-data
+namespace: ffc-rpa
+workstream: ffc-rpa
+image: rpa-mit-reference-data
+
+labels: {}
+
+azureIdentity:
+  resourceID: dummy
+  clientID: dummy
+
+appInsights:
+  connectionString:
+
+containerConfigMap:
+  name: rpa-mit-reference-data-config-map
+
+containerSecret:
+  name: rpa-mit-reference-data-container-secret
+  type: Opaque
+
+deployment:
+  restartPolicy: Always
+  priorityClassName: low
+  replicas: 1
+  minReadySeconds: 5
+  imagePullSecret:
+
+container:
+  imagePullPolicy: IfNotPresent
+  requestMemory: 120Mi
+  requestCpu: 5m
+  limitMemory: 120Mi
+  limitCpu: 120m
+  port: 3000
+  comPlusEnableDiagnostics: 0
+
+postgresService:
+  postgresqlHost: rpa-mit-reference-data-postgres
+  postgresPort: 5432
+  postgresUser: postgres
+  postgresDb: rpa_mit_reference_data
+  postgresSchema: public
+
+volumeMounts:
+  mountPath: /var/www/
+  name: core-app-dir
+
+aadPodIdentity: true

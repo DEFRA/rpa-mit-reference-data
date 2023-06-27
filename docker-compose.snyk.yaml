@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  rpa-mit-reference-data:
+    build:
+      context: .
+      target: development
+    image: rpa-mit-reference-data-snyk
+    command: extract-project-assets.sh
+    entrypoint: /bin/sh
+    volumes:
+      - ./scripts/extract-project-assets.sh:/home/dotnet/extract-project-assets.sh
+      - ./RPA.MIT.ReferenceData.Api/obj:/home/dotnet/snyk

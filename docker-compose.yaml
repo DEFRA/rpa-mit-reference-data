@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  rpa-mit-reference-data:
+    build:
+      context: .
+      target: production
+    image: rpa-mit-reference-data
+    container_name: rpa-mit-reference-data
+    depends_on:
+      - rpa-mit-reference-data-postgres
+    environment:
+      COMPlus_EnableDiagnostics: 0
+      POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-reference-data-postgres}
+      POSTGRES_DB: rpa_mit_reference_data
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
+      POSTGRES_PORT: "5432"
+      SCHEMA_DEFAULT: ${POSTGRES_SCHEMA_NAME:-public}
+
+  rpa-mit-reference-data-postgres:
+    image: postgres:15.3-alpine
+    environment:
+      POSTGRES_DB: rpa_mit_reference_data
+      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}

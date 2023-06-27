@@ -1,0 +1,340 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.10.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd">
+    <changeSet author="Shaun Fitzsimons" id="1686901207710-48">
+      <tagDatabase tag="v0.0.0" />
+    </changeSet>
+    <changeSet author="Shaun Fitzsimons" id="1686901207710-49">
+      <tagDatabase tag="v1.0.0" />
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-1">
+        <createTable tableName="invoice_route_marketing_year_code">
+            <column name="marketing_year_codes_code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoice_route_marketing_year_code"/>
+            </column>
+            <column name="routes_route_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoice_route_marketing_year_code"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-2">
+        <createTable tableName="marketing_year_codes">
+            <column autoIncrement="true" name="code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_marketing_year_codes"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-3">
+        <createTable tableName="delivery_body_code_invoice_route">
+            <column name="delivery_body_codes_code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_delivery_body_code_invoice_route"/>
+            </column>
+            <column name="routes_route_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_delivery_body_code_invoice_route"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-4">
+        <createTable tableName="invoice_types">
+            <column autoIncrement="true" name="component_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoice_types"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-5">
+        <createTable tableName="combinations">
+            <column autoIncrement="true" name="combination_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_combinations"/>
+            </column>
+            <column name="route_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scheme_code_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_code_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_body_code_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-6">
+        <createTable tableName="fund_code_invoice_route">
+            <column name="fund_codes_code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_fund_code_invoice_route"/>
+            </column>
+            <column name="routes_route_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_fund_code_invoice_route"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-7">
+        <createTable tableName="invoice_route_scheme_code">
+            <column name="routes_route_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoice_route_scheme_code"/>
+            </column>
+            <column name="scheme_codes_code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoice_route_scheme_code"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-8">
+        <createTable tableName="account_code_invoice_route">
+            <column name="account_codes_code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account_code_invoice_route"/>
+            </column>
+            <column name="routes_route_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account_code_invoice_route"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-9">
+        <createTable tableName="account_codes">
+            <column autoIncrement="true" name="code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account_codes"/>
+            </column>
+            <column name="recovery_type" type="TEXT"/>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-10">
+        <createTable tableName="payment_types">
+            <column autoIncrement="true" name="component_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_payment_types"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-11">
+        <createTable tableName="fund_codes">
+            <column autoIncrement="true" name="code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_fund_codes"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-12">
+        <createTable tableName="organisations">
+            <column autoIncrement="true" name="component_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_organisations"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-13">
+        <createTable tableName="scheme_codes">
+            <column autoIncrement="true" name="code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_scheme_codes"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-14">
+        <createTable tableName="scheme_types">
+            <column autoIncrement="true" name="component_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_scheme_types"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-15">
+        <createTable tableName="delivery_body_codes">
+            <column autoIncrement="true" name="code_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_delivery_body_codes"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-16">
+        <createTable tableName="invoice_routes">
+            <column autoIncrement="true" name="route_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoice_routes"/>
+            </column>
+            <column name="invoice_type_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organisation_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scheme_type_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_type_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-17">
+        <createIndex indexName="ix_invoice_route_marketing_year_code_routes_route_id" tableName="invoice_route_marketing_year_code">
+            <column name="routes_route_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-18">
+        <createIndex indexName="ix_delivery_body_code_invoice_route_routes_route_id" tableName="delivery_body_code_invoice_route">
+            <column name="routes_route_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-19">
+        <createIndex indexName="IX_Combination_Components" tableName="combinations" unique="true">
+            <column name="route_id"/>
+            <column name="scheme_code_id"/>
+            <column name="account_code_id"/>
+            <column name="delivery_body_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-20">
+        <createIndex indexName="ix_combinations_account_code_id" tableName="combinations">
+            <column name="account_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-21">
+        <createIndex indexName="ix_combinations_delivery_body_code_id" tableName="combinations">
+            <column name="delivery_body_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-22">
+        <createIndex indexName="ix_combinations_scheme_code_id" tableName="combinations">
+            <column name="scheme_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-23">
+        <createIndex indexName="ix_fund_code_invoice_route_routes_route_id" tableName="fund_code_invoice_route">
+            <column name="routes_route_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-24">
+        <createIndex indexName="ix_invoice_route_scheme_code_scheme_codes_code_id" tableName="invoice_route_scheme_code">
+            <column name="scheme_codes_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-25">
+        <createIndex indexName="ix_account_code_invoice_route_routes_route_id" tableName="account_code_invoice_route">
+            <column name="routes_route_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-26">
+        <createIndex indexName="IX_Route_RouteParameters" tableName="invoice_routes" unique="true">
+            <column name="invoice_type_id"/>
+            <column name="organisation_id"/>
+            <column name="scheme_type_id"/>
+            <column name="payment_type_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-27">
+        <addForeignKeyConstraint baseColumnNames="invoice_type_id" baseTableName="invoice_routes" constraintName="fk_invoice_routes_invoice_types_invoice_type_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="component_id" referencedTableName="invoice_types" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-28">
+        <addForeignKeyConstraint baseColumnNames="organisation_id" baseTableName="invoice_routes" constraintName="fk_invoice_routes_organisations_organisation_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="component_id" referencedTableName="organisations" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-29">
+        <addForeignKeyConstraint baseColumnNames="payment_type_id" baseTableName="invoice_routes" constraintName="fk_invoice_routes_payment_types_payment_type_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="component_id" referencedTableName="payment_types" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-30">
+        <addForeignKeyConstraint baseColumnNames="scheme_type_id" baseTableName="invoice_routes" constraintName="fk_invoice_routes_scheme_types_scheme_type_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="component_id" referencedTableName="scheme_types" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-31">
+        <createIndex indexName="ix_invoice_routes_organisation_id" tableName="invoice_routes">
+            <column name="organisation_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-32">
+        <createIndex indexName="ix_invoice_routes_payment_type_id" tableName="invoice_routes">
+            <column name="payment_type_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-33">
+        <createIndex indexName="ix_invoice_routes_scheme_type_id" tableName="invoice_routes">
+            <column name="scheme_type_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-34">
+        <addForeignKeyConstraint baseColumnNames="routes_route_id" baseTableName="invoice_route_marketing_year_code" constraintName="fk_invoice_route_marketing_year_code_invoice_routes_routes_rou" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="route_id" referencedTableName="invoice_routes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-35">
+        <addForeignKeyConstraint baseColumnNames="marketing_year_codes_code_id" baseTableName="invoice_route_marketing_year_code" constraintName="fk_invoice_route_marketing_year_code_marketing_year_codes_mark" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="marketing_year_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-36">
+        <addForeignKeyConstraint baseColumnNames="delivery_body_codes_code_id" baseTableName="delivery_body_code_invoice_route" constraintName="fk_delivery_body_code_invoice_route_delivery_body_codes_delive" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="delivery_body_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-37">
+        <addForeignKeyConstraint baseColumnNames="routes_route_id" baseTableName="delivery_body_code_invoice_route" constraintName="fk_delivery_body_code_invoice_route_invoice_routes_routes_rout" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="route_id" referencedTableName="invoice_routes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-38">
+        <addForeignKeyConstraint baseColumnNames="account_code_id" baseTableName="combinations" constraintName="fk_combinations_account_codes_account_code_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="account_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-39">
+        <addForeignKeyConstraint baseColumnNames="delivery_body_code_id" baseTableName="combinations" constraintName="fk_combinations_delivery_body_codes_delivery_body_code_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="delivery_body_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-40">
+        <addForeignKeyConstraint baseColumnNames="route_id" baseTableName="combinations" constraintName="fk_combinations_invoice_routes_route_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="route_id" referencedTableName="invoice_routes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-41">
+        <addForeignKeyConstraint baseColumnNames="scheme_code_id" baseTableName="combinations" constraintName="fk_combinations_scheme_codes_scheme_code_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="scheme_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-42">
+        <addForeignKeyConstraint baseColumnNames="fund_codes_code_id" baseTableName="fund_code_invoice_route" constraintName="fk_fund_code_invoice_route_fund_codes_fund_codes_code_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="fund_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-43">
+        <addForeignKeyConstraint baseColumnNames="routes_route_id" baseTableName="fund_code_invoice_route" constraintName="fk_fund_code_invoice_route_invoice_routes_routes_route_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="route_id" referencedTableName="invoice_routes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-44">
+        <addForeignKeyConstraint baseColumnNames="routes_route_id" baseTableName="invoice_route_scheme_code" constraintName="fk_invoice_route_scheme_code_invoice_routes_routes_route_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="route_id" referencedTableName="invoice_routes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-45">
+        <addForeignKeyConstraint baseColumnNames="scheme_codes_code_id" baseTableName="invoice_route_scheme_code" constraintName="fk_invoice_route_scheme_code_scheme_codes_scheme_codes_code_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="scheme_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-46">
+        <addForeignKeyConstraint baseColumnNames="account_codes_code_id" baseTableName="account_code_invoice_route" constraintName="fk_account_code_invoice_route_account_codes_account_codes_code" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="code_id" referencedTableName="account_codes" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1686901207710-47">
+        <addForeignKeyConstraint baseColumnNames="routes_route_id" baseTableName="account_code_invoice_route" constraintName="fk_account_code_invoice_route_invoice_routes_routes_route_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="route_id" referencedTableName="invoice_routes" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

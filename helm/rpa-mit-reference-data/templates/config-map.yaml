@@ -1,0 +1,10 @@
+{{- include "ffc-helm-library.container-config-map" (list . "rpa-mit-reference-data.config-map") -}}
+{{- define "rpa-mit-reference-data.config-map" -}}
+data:
+  COMPlus_EnableDiagnostics: {{ .Values.container.comPlusEnableDiagnostics | quote }}
+  PORT: {{ .Values.container.port | quote }}
+  POSTGRES_HOST: {{ .Values.postgresService.postgresqlHost | quote }}
+  POSTGRES_DB: {{ .Values.postgresService.postgresDb | quote }}
+  POSTGRES_PORT: {{ .Values.postgresService.postgresPort | quote }}
+  SCHEMA_DEFAULT: {{ .Values.postgresService.postgresSchema | quote }}
+{{- end -}}
