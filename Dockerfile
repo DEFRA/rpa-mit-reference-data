@@ -43,5 +43,5 @@ ENV ASPNETCORE_URLS=http://*:${PORT}
 EXPOSE ${PORT}
 
 COPY --from=development /home/dotnet/out/ ./
-
+ 
 CMD dotnet RPA.MIT.ReferenceData.Api.dll
