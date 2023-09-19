@@ -36,6 +36,11 @@ container:
   port: 3000
   comPlusEnableDiagnostics: 0
 
+ingress:
+  class: nginx
+  endpoint: rpa-mit-reference-data
+  server: value.replaced.from.app.config
+
 postgresService:
   postgresqlHost: rpa-mit-reference-data-postgres
   postgresPort: 5432

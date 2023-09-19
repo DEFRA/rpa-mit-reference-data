@@ -1,0 +1,3 @@
+{{- include "ffc-helm-library.azure-ingress" (list . "rpa-mit-reference-data.ingress") -}}
+{{- define "rpa-mit-reference-data.ingress" -}}
+{{- end -}}
