@@ -42,11 +42,15 @@ ingress:
   server: value.replaced.from.app.config
 
 postgresService:
-  postgresqlHost: rpa-mit-reference-data-postgres
-  postgresPort: 5432
-  postgresUser: postgres
   postgresDb: rpa_mit_reference_data
+  # postgresExternalName is the external host name to which PostgreSQL
+  # requests should be forwarded. If empty, PostgreSQL is assumed to be
+  # within the cluster and accessible via postgresHost
+  postgresExternalName:
+  postgresHost: rpa-mit-reference-data-postgres
+  postgresPort: 5432
   postgresSchema: public
+  postgresUser: postgres
 
 volumeMounts:
   mountPath: /var/www/
