@@ -1,4 +1,4 @@
-{{- include "ffc-helm-library.postgres-service" (list . "ffc-microservice.postgres-service") -}}
-{{- define "ffc-microservice.postgres-service" -}}
+{{- include "ffc-helm-library.postgres-service" (list . "rpa-mit-reference-data.postgres-service") -}}
+{{- define "rpa-mit-reference-data.postgres-service" -}}
 # Microservice specific configuration in here
 {{- end -}}
