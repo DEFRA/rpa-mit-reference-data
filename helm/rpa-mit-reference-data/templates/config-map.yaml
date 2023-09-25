@@ -8,5 +8,5 @@ data:
   POSTGRES_USER: {{ .Values.postgresService.postgresUser | quote }}
   POSTGRES_PASSWORD: {{ .Values.postgresService.postgresPassword | quote }}
   POSTGRES_PORT: {{ .Values.postgresService.postgresPort | quote }}
-
+  AzureADPostgreSQLResourceID: {{ .Values.container.AzureADPostgreSQLResourceID | quote }}
 {{- end -}}

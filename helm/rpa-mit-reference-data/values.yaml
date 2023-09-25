@@ -35,6 +35,7 @@ container:
   limitCpu: 120m
   port: 3000
   comPlusEnableDiagnostics: 0
+  AzureADPostgreSQLResourceID: https://ossrdbms-aad.database.windows.net/.default
 
 ingress:
   class: nginx
@@ -46,7 +47,7 @@ postgresService:
   # postgresExternalName is the external host name to which PostgreSQL
   # requests should be forwarded. If empty, PostgreSQL is assumed to be
   # within the cluster and accessible via postgresHost
-  postgresExternalName:
+  postgresExternalName: 
   postgresHost: rpa-mit-reference-data-postgres
   postgresPort: 5432
   postgresSchema: public
