@@ -1,3 +1,4 @@
+using Azure.Core;
 using Azure.Core.Diagnostics;
 using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,17 +19,20 @@ if (builder.Environment.IsProduction())
 {
 				using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger();
 
-				var sqlServerTokenProvider = new DefaultAzureCredential(new DefaultAzureCredentialOptions()
+				var options = new DefaultAzureCredentialOptions()
 				{
 								Diagnostics =
 								{
 												LoggedHeaderNames = { "x-ms-request-id" },
 												LoggedQueryParameters = { "api-version" },
-												IsLoggingContentEnabled = true
+												IsLoggingContentEnabled = true,
 								}
-				});
+				};
+				options.Retry.NetworkTimeout = TimeSpan.FromSeconds(1000);
 
-    pass = (await sqlServerTokenProvider.GetTokenAsync(
+				var sqlServerTokenProvider = new DefaultAzureCredential(options);
+
+				pass = (await sqlServerTokenProvider.GetTokenAsync(
         new Azure.Core.TokenRequestContext(scopes: new string[] { postgresSqlAAD! }) { })).Token;
 }
 
