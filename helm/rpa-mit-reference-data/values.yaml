@@ -35,6 +35,7 @@ container:
   limitCpu: 120m
   port: 3000
   comPlusEnableDiagnostics: 0
+  AzureADPostgreSQLResourceID: https://ossrdbms-aad.database.windows.net/.default
 
 ingress:
   class: nginx
