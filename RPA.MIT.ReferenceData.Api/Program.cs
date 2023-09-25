@@ -1,5 +1,7 @@
+using Azure.Core.Diagnostics;
 using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RPA.MIT.ReferenceData.Api.Extensions;
 using RPA.MIT.ReferenceData.Data;
 
@@ -14,9 +16,20 @@ var postgresSqlAAD = builder.Configuration["AzureADPostgreSQLResourceID"];
 
 if (builder.Environment.IsProduction())
 {
-    var sqlServerTokenProvider = new DefaultAzureCredential();
+				using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger();
+
+				var sqlServerTokenProvider = new DefaultAzureCredential(new DefaultAzureCredentialOptions()
+				{
+								Diagnostics =
+								{
+												LoggedHeaderNames = { "x-ms-request-id" },
+												LoggedQueryParameters = { "api-version" },
+												IsLoggingContentEnabled = true
+								}
+				});
+
     pass = (await sqlServerTokenProvider.GetTokenAsync(
-        new Azure.Core.TokenRequestContext(scopes: new string[] { postgresSqlAAD }) { })).Token;
+        new Azure.Core.TokenRequestContext(scopes: new string[] { postgresSqlAAD! }) { })).Token;
 }
 
 var postgres = string.Format(builder.Configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
