@@ -25,6 +25,8 @@ if (builder.Environment.IsProduction())
 								{
 												LoggedHeaderNames = { "x-ms-request-id" },
 												LoggedQueryParameters = { "api-version" },
+												IsAccountIdentifierLoggingEnabled = true,
+												IsDistributedTracingEnabled = true,
 												IsLoggingContentEnabled = true,
 								}
 				};
