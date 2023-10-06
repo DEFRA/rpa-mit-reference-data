@@ -47,7 +47,7 @@ postgresService:
   # postgresExternalName is the external host name to which PostgreSQL
   # requests should be forwarded. If empty, PostgreSQL is assumed to be
   # within the cluster and accessible via postgresHost
-  postgresExternalName: 
+  postgresExternalName: sndffcdbssq1002.postgres.database.azure.com
   postgresHost: rpa-mit-reference-data-postgres
   postgresPort: 5432
   postgresSchema: public
