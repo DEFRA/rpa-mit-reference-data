@@ -1,5 +1,5 @@
 {{- if .Values.aadPodIdentity }}
-{{- include "ffc-helm-library.azure-identity-binding" (list . "rpa-mit-reference-data.azure-identity-binding") -}}
+{{- include "ffc-helm-library.azure-identity-binding" (list . "rpa-snd-mit-reference-data.azure-identity-binding") -}}
 {{- end }}
-{{- define "rpa-mit-reference-data.azure-identity-binding" -}}
+{{- define "rpa-snd-mit-reference-data.azure-identity-binding" -}}
 {{- end -}}
