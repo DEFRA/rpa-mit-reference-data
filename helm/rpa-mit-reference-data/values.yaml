@@ -1,5 +1,5 @@
 environment: development
-name: rpa-snd-mit-reference-data
+name: rpa-mit-reference-data
 namespace: ffc-rpa
 workstream: ffc-rpa
 image: rpa-mit-reference-data
