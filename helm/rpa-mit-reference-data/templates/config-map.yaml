@@ -3,7 +3,7 @@
 data:
   COMPlus_EnableDiagnostics: {{ .Values.container.comPlusEnableDiagnostics | quote }}
   PORT: {{ .Values.container.port | quote }}
-  POSTGRES_HOST: {{ .Values.postgresService.postgresHost | quote }}
+  POSTGRES_HOST: {{ .Values.postgresService.postgresExternalName | quote }}
   POSTGRES_DB: {{ .Values.postgresService.postgresDb | quote }}
   POSTGRES_USER: {{ .Values.postgresService.postgresUser | quote }}
   POSTGRES_PASSWORD: {{ .Values.postgresService.postgresPassword | quote }}
