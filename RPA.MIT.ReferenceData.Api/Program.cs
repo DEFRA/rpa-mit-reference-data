@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using RPA.MIT.ReferenceData.Api;
+using RPA.MIT.ReferenceData.Api.Authentication;
 using RPA.MIT.ReferenceData.Api.Extensions;
 using RPA.MIT.ReferenceData.Data;
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ReferenceDataContext>(options =>
 {
-				options.AddInterceptors(new AadAuthenticationInterceptor(builder.Configuration, builder.Environment.IsProduction()));
+				options.AddInterceptors(new AadAuthenticationInterceptor(new TokenGenerator(), builder.Configuration, builder.Environment.IsProduction()));
     options.UseNpgsql(
         string.Empty,
         x => x.MigrationsAssembly("EST.MIT.ReferenceData.Data")
