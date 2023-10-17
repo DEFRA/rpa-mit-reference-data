@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RPA.MIT.ReferenceData.Data.Models;
 using RPA.MIT.ReferenceData.Data.Models.Codes;
 using RPA.MIT.ReferenceData.Data.Models.RouteComponents;
