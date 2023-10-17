@@ -10,7 +10,7 @@ public class AadAuthenticationInterceptorTests
 
     public AadAuthenticationInterceptorTests()
     {
-        var inMemorySettings = new Dictionary<string, string> {
+        var inMemorySettings = new Dictionary<string, string?> {
             {"POSTGRES_HOST", "ahost.com"},
             {"POSTGRES_PORT", "5432"},
             {"POSTGRES_DB", "a_database"},
@@ -96,7 +96,7 @@ public class AadAuthenticationInterceptorTests
         TokenCache.AccessToken = null;
     }
 
-    private void SetUpTokenService(Mock<ITokenGenerator> mockTokenService)
+    private static void SetUpTokenService(Mock<ITokenGenerator> mockTokenService)
     {
         mockTokenService.Setup(t => t.GetTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Azure.Core.AccessToken("a_token", DateTime.Now.AddDays(1)));

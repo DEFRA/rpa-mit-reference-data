@@ -2,6 +2,8 @@ using Azure.Core;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 
+#pragma warning disable 1591
+
 namespace RPA.MIT.ReferenceData.Api.Authentication;
 
 public class AadAuthenticationInterceptor : DbConnectionInterceptor

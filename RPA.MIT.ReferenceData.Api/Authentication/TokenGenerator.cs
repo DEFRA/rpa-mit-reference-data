@@ -5,6 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace RPA.MIT.ReferenceData.Api.Authentication;
 
+#pragma warning disable 1591
+
 [ExcludeFromCodeCoverage]
 public class TokenGenerator : ITokenGenerator
 {
