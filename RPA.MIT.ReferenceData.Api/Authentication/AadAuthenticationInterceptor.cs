@@ -41,7 +41,7 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
 
         if (_isProd)
         {
-            if ((!TokenCache.AccessToken.HasValue) || (DateTime.Now >= TokenCache.AccessToken.Value.ExpiresOn))
+            if ((!TokenCache.AccessToken.HasValue) || (DateTime.Now >= TokenCache.AccessToken.Value.ExpiresOn.AddMinutes(-1)))
             {
                 TokenCache.AccessToken = await _tokenService.GetTokenAsync(postgresSqlAAD!, cancellationToken);
             }

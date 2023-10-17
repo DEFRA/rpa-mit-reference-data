@@ -53,7 +53,7 @@ public class AadAuthenticationInterceptorTests
         await connectionInterceptor.GetConnectionStringAsync(cancelToken);
 
         // Expire the token
-        TokenCache.AccessToken = new Azure.Core.AccessToken("a_token", DateTime.Now.AddDays(-1));
+        TokenCache.AccessToken = new Azure.Core.AccessToken("a_token", DateTime.Now.AddMinutes(-1));
 
         // Create another new token as token has expired.
         string connectionString = await connectionInterceptor.GetConnectionStringAsync(cancelToken);
