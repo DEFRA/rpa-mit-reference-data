@@ -48,28 +48,35 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
         var pass = _configuration["POSTGRES_PASSWORD"];
         var postgresSqlAAD = _configuration["AzureADPostgreSQLResourceID"];
 
-        if ((_isProd) && ((!TokenCache.AccessToken.HasValue) || (DateTime.UtcNow >= TokenCache.AccessToken.Value.ExpiresOn)))
+        if (_isProd)
         {
-            using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger();
-
-            var options = new DefaultAzureCredentialOptions()
+            if ((!TokenCache.AccessToken.HasValue) || (DateTime.Now >= TokenCache.AccessToken.Value.ExpiresOn))
             {
-                Diagnostics =
+                using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger();
+
+                var options = new DefaultAzureCredentialOptions()
                 {
-                    LoggedHeaderNames = { "x-ms-request-id" },
-                    LoggedQueryParameters = { "api-version" },
-                    IsAccountIdentifierLoggingEnabled = true,
-                    IsDistributedTracingEnabled = true,
-                    IsLoggingContentEnabled = true
-                }
-            };
+                    Diagnostics =
+                    {
+                        LoggedHeaderNames = { "x-ms-request-id" },
+                        LoggedQueryParameters = { "api-version" },
+                        IsAccountIdentifierLoggingEnabled = true,
+                        IsDistributedTracingEnabled = true,
+                        IsLoggingContentEnabled = true
+                    }
+                };
 
-            options.Retry.NetworkTimeout = TimeSpan.FromSeconds(1000);
+                options.Retry.NetworkTimeout = TimeSpan.FromSeconds(1000);
 
-            var sqlServerTokenProvider = new DefaultAzureCredential(options);
-            TokenCache.AccessToken = await sqlServerTokenProvider
-                .GetTokenAsync(new TokenRequestContext(scopes: new string[] { postgresSqlAAD! }) { }, cancellationToken);
-            pass = TokenCache.AccessToken.Value.Token;
+                var sqlServerTokenProvider = new DefaultAzureCredential(options);
+                TokenCache.AccessToken = await sqlServerTokenProvider
+                    .GetTokenAsync(new TokenRequestContext(scopes: new string[] { postgresSqlAAD! }) { }, cancellationToken);
+                pass = TokenCache.AccessToken.Value.Token;
+            }
+            else
+            {
+                pass = TokenCache.AccessToken.Value.Token;
+            }
         }
 
         return string.Format(_configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
