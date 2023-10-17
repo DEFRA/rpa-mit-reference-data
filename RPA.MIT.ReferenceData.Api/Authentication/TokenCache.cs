@@ -6,5 +6,12 @@ namespace RPA.MIT.ReferenceData.Api.Authentication;
 
 public static class TokenCache
 {
-    public static AccessToken? AccessToken { get; set; }
+    public static AccessToken? AccessToken 
+    {
+        get { lock (_sync) { return _accessToken; } }
+        set { lock (_sync) { _accessToken = value; } }
+    }
+
+    private static AccessToken? _accessToken;
+    private static readonly object _sync = new object();
 }
