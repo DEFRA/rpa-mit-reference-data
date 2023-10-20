@@ -50,5 +50,11 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
         }
 
         return string.Format(_configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
+   }
+
+    public bool IsLocalDatabase()
+    {
+        var host = _configuration["POSTGRES_HOST"];
+        return string.IsNullOrEmpty(host) || host.ToLower() == "localhost" || host == "127.0.0.1";
     }
 }
