@@ -1,16 +1,23 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using RPA.MIT.ReferenceData.Api.Authentication;
 using RPA.MIT.ReferenceData.Api.Extensions;
 using RPA.MIT.ReferenceData.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), builder.Configuration, builder.Environment.IsProduction());
+
 builder.Services.AddDbContext<ReferenceDataContext>(options =>
 {
-				options.AddInterceptors(new AadAuthenticationInterceptor(new TokenGenerator(), builder.Configuration, builder.Environment.IsProduction()));
+    var connStringTask = interceptor.GetConnectionStringAsync();
+    var connString = connStringTask.GetAwaiter().GetResult();
+
+    options.AddInterceptors(interceptor);
+
     options.UseNpgsql(
-        string.Empty,
-        x => x.MigrationsAssembly("EST.MIT.ReferenceData.Data")
+        connString,
+        x => x.MigrationsAssembly("RPA.MIT.ReferenceData.Data")
     )
     .UseSnakeCaseNamingConvention();
 });
@@ -22,5 +29,15 @@ var app = builder.Build();
 
 app.UseReferenceDataEndpoints();
 app.UseSwaggerEndpoints();
+
+if (interceptor.IsLocalDatabase())
+{
+    // Run migrations if your database is local
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ReferenceDataContext>();
+        db.Database.Migrate();
+    }
+}
 
 app.Run();
