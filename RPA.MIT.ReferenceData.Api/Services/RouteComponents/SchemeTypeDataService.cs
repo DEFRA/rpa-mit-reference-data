@@ -43,8 +43,7 @@ public class SchemeTypeDataService : ISchemeTypeDataService
             query = await query.FilterByOrganisation(_context, organisation);
         }
 
-        var types = query.Select(r => r.SchemeType)
-            .ToArray();
+        var types = await query.Select(r => r.SchemeType).ToArrayAsync();
 
         return types.DistinctBy(x => x.ComponentId);
     }
