@@ -26,6 +26,18 @@ public class AadAuthenticationInterceptorTests
     }
 
     [Fact]
+    public void GetConnectionString_ReturnsConnectionString()
+    {
+        Mock<ITokenGenerator> mockTokenService = new();
+        var connectionInterceptor = new AadAuthenticationInterceptor(mockTokenService.Object, _config, true);
+
+        string connectionString = connectionInterceptor.GetConnectionString();
+
+        Assert.Equal("Server=ahost.com;Port=5432;Database=a_database;User Id=a_user;Password=a_password", connectionString);
+    }
+
+
+    [Fact]
     public async Task GetConnectionStringAsync_NoTokenInCache_ReturnsConnectionString()
     {
         Mock<ITokenGenerator> mockTokenService = new();
