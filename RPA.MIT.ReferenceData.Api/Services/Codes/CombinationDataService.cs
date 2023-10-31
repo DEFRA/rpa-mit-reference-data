@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RPA.MIT.ReferenceData.Api.Interfaces;
 using RPA.MIT.ReferenceData.Api.Models.Responses;
 using RPA.MIT.ReferenceData.Data;
@@ -35,18 +36,15 @@ public class CombinationDataService : ICombinationDataService
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<CombinationResponse>> Get(InvoiceRoute route)
+    public async Task<IEnumerable<CombinationResponse>> Get(InvoiceRoute route)
     {
-        var codes = _context.Combinations.Where(r => r.RouteId == route.RouteId)
+        return await _context.Combinations.Where(r => r.RouteId == route.RouteId)
             .Select(c => new CombinationResponse
             {
                 AccountCode = c.AccountCode.Code,
                 SchemeCode = c.SchemeCode.Code,
                 DeliveryBodyCode = c.DeliveryBodyCode.Code
-            })
-            .AsEnumerable();
-
-        return Task.FromResult(codes);
+            }).ToArrayAsync();
     }
 
     /// <inheritdoc />

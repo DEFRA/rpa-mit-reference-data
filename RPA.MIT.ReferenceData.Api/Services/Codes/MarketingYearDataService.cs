@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RPA.MIT.ReferenceData.Api.Interfaces;
 using RPA.MIT.ReferenceData.Data;
 using RPA.MIT.ReferenceData.Data.Models;
@@ -35,14 +36,11 @@ public class MarketingYearDataService : IReferenceDataService<MarketingYearCode>
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<MarketingYearCode>> Get(InvoiceRoute route)
+    public async Task<IEnumerable<MarketingYearCode>> Get(InvoiceRoute route)
     {
-        var codes = _context.InvoiceRoutes.Where(r => r.RouteId == route.RouteId)
+        return await  _context.InvoiceRoutes.Where(r => r.RouteId == route.RouteId)
             .Select(r => r.MarketingYearCodes)
-            .Single()
-            .AsEnumerable();
-
-        return Task.FromResult(codes);
+            .SingleAsync();
     }
 
     /// <inheritdoc />

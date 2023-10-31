@@ -1,4 +1,5 @@
-﻿using RPA.MIT.ReferenceData.Api.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RPA.MIT.ReferenceData.Api.Interfaces;
 using RPA.MIT.ReferenceData.Data;
 using RPA.MIT.ReferenceData.Data.Models.RouteComponents;
 
@@ -22,10 +23,10 @@ public class InvoiceTypeDataService : IInvoiceTypeDataService
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<InvoiceType>> Get()
+    public async Task<IEnumerable<InvoiceType>> Get()
     {
-        var types = _context.InvoiceTypes.ToArray();
+        var types = await _context.InvoiceTypes.ToArrayAsync();
 
-        return Task.FromResult(types.DistinctBy(x => x.ComponentId));
+        return types.DistinctBy(x => x.ComponentId);
     }
 }
