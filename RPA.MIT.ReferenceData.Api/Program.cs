@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using RPA.MIT.ReferenceData.Api.Authentication;
 using RPA.MIT.ReferenceData.Api.Extensions;
 using RPA.MIT.ReferenceData.Data;
@@ -36,7 +35,7 @@ if (interceptor.IsLocalDatabase())
     using (var scope = app.Services.CreateScope())
     {
         var db = scope.ServiceProvider.GetRequiredService<ReferenceDataContext>();
-        db.Database.Migrate();
+        // db.Database.Migrate(); // Don't do Migration until SeedProvider and API migrations are synced (else this step might break)
     }
 }
 
