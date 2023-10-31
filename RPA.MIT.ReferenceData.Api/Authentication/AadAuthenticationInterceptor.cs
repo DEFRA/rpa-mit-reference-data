@@ -19,6 +19,23 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
         _tokenService = tokenService;
     }
 
+    public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
+    {
+        // handles connectionString init for Non-async db calls, such as for InvoiceTypeParameterFilter used in AddSwaggerServices
+        connection.ConnectionString = GetConnectionString();
+        return base.ConnectionOpening(connection, eventData, result);
+    }
+
+    public string GetConnectionString()
+    {
+        var host = _configuration["POSTGRES_HOST"];
+        var port = _configuration["POSTGRES_PORT"];
+        var db = _configuration["POSTGRES_DB"];
+        var user = _configuration["POSTGRES_USER"];
+        var pass = _configuration["POSTGRES_PASSWORD"];
+        return string.Format(_configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
+    }
+
     public override async ValueTask<InterceptionResult> ConnectionOpeningAsync(
         DbConnection connection,
         ConnectionEventData eventData,
