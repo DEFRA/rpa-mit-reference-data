@@ -22,7 +22,9 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
     public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
     {
         // handles connectionString init for Non-async db calls, such as for InvoiceTypeParameterFilter used in AddSwaggerServices
-        connection.ConnectionString = GetConnectionString();
+        if (!_isProd) {
+            connection.ConnectionString = GetConnectionString();
+        }
         return base.ConnectionOpening(connection, eventData, result);
     }
 
