@@ -38,8 +38,8 @@ public class OrganisationDataService : IOrganisationDataService
             query = await query.FilterByInvoiceType(_context, invoiceType);
         }
 
-        var types = query.Select(r => r.Organisation)
-            .ToArray();
+        var types = await query.Select(r => r.Organisation)
+            .ToArrayAsync();
 
         return types.DistinctBy(x => x.ComponentId);
     }

@@ -48,8 +48,8 @@ public class PaymentTypeDataService : IPaymentTypeDataService
             query = await query.FilterBySchemeType(_context, schemeType);
         }
 
-        var types = query.Select(r => r.PaymentType)
-            .ToArray();
+        var types = await query.Select(r => r.PaymentType)
+            .ToArrayAsync();
 
         return types.DistinctBy(x => x.ComponentId);
     }
