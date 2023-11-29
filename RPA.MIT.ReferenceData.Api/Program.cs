@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RPA.MIT.ReferenceData.Api.Authentication;
 using RPA.MIT.ReferenceData.Api.Extensions;
+using RPA.MIT.ReferenceData.Api.SeedData;
 using RPA.MIT.ReferenceData.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), builder.Configuration, builder.Environment.IsProduction());
+var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), builder.Configuration);
 
 builder.Services.AddDbContext<ReferenceDataContext>(options =>
 {
@@ -29,14 +32,12 @@ var app = builder.Build();
 app.UseReferenceDataEndpoints();
 app.UseSwaggerEndpoints();
 
-if (interceptor.IsLocalDatabase())
+
+using (var scope = app.Services.CreateScope())
 {
-    // Run migrations if your database is local
-    using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<ReferenceDataContext>();
-        // db.Database.Migrate(); // Don't do Migration until SeedProvider and API migrations are synced (else this step might break)
-    }
+    var db = scope.ServiceProvider.GetRequiredService<ReferenceDataContext>();
+
+    SeedProvider.SeedReferenceData(db, builder.Configuration);
 }
 
 app.Run();

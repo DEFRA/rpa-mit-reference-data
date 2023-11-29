@@ -9,20 +9,19 @@ namespace RPA.MIT.ReferenceData.Api.Authentication;
 public class AadAuthenticationInterceptor : DbConnectionInterceptor
 {
     private readonly IConfiguration _configuration;
-    private readonly bool _isProd;
     private readonly ITokenGenerator _tokenService;
 
-    public AadAuthenticationInterceptor(ITokenGenerator tokenService, IConfiguration configuration, bool isProd)
+    public AadAuthenticationInterceptor(ITokenGenerator tokenService, IConfiguration configuration)
     {
         _configuration = configuration;
-        _isProd = isProd;
         _tokenService = tokenService;
     }
 
     public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
     {
         // handles connectionString init for Non-async db calls, such as for InvoiceTypeParameterFilter used in AddSwaggerServices
-        if (!_isProd) {
+        if (_configuration.IsLocalDatabase(_configuration))
+        {
             connection.ConnectionString = GetConnectionString();
         }
         return base.ConnectionOpening(connection, eventData, result);
@@ -58,7 +57,7 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
         var pass = _configuration["POSTGRES_PASSWORD"];
         var postgresSqlAAD = _configuration["AzureADPostgreSQLResourceID"];
 
-        if (_isProd)
+        if (!_configuration.IsLocalDatabase(_configuration))
         {
             if ((!TokenCache.AccessToken.HasValue) || (DateTime.Now >= TokenCache.AccessToken.Value.ExpiresOn.AddMinutes(-1)))
             {
@@ -74,6 +73,6 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
     public bool IsLocalDatabase()
     {
         var host = _configuration["POSTGRES_HOST"];
-        return string.IsNullOrEmpty(host) || host.ToLower() == "localhost" || host == "127.0.0.1";
+        return string.IsNullOrEmpty(host) || host.ToLower() == "host.docker.internal" || host.ToLower() == "localhost" || host == "127.0.0.1";
     }
 }
