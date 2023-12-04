@@ -12,11 +12,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="RPA.MIT.ReferenceData" Version="1.0.1" />
+    <PackageReference Include="RPA.MIT.ReferenceData" Version="1.0.4" />
   </ItemGroup>
 
   <PropertyGroup>
-    <Version>1.0.21</Version>
+    <Version>1.0.22</Version>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

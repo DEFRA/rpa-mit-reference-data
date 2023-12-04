@@ -34,6 +34,8 @@ public class ReferenceDataContext : DbContext
 
     public DbSet<Combination> Combinations => Set<Combination>();
 
+    public DbSet<ReferenceDataPackageVersion> PackageVersion => Set<ReferenceDataPackageVersion>();
+
     public ReferenceDataContext(DbContextOptions<ReferenceDataContext> options) : base(options)
     {
     }
