@@ -30,18 +30,25 @@ public static class SeedProvider
 
         if (configuration.IsLocalDatabase(configuration))
         {
-            // If prod allow LiquiBase to perform schema setup.
             context.Database.EnsureCreated();
+        }
 
-            // Set Package version
-            //var packageVersion = new Data.Models.ReferenceDataPackageVersion();
-            //packageVersion.VersionNumber = "1.0.4";
-            //context.PackageVersion.Add(packageVersion);
+        if (context.PackageVersion.Count() == 0)
+        {
+            var packageVersion = new Data.Models.ReferenceDataPackageVersion
+            {
+                VersionNumber = configuration["MitRefDataVersion"]
+            };
+            context.PackageVersion.Add(packageVersion);
+            seedData = true;
         }
         else
         {
-            // On Docker / AKS platform. Check if package version is different to seeded version.
-
+            if (context.PackageVersion.First().VersionNumber != configuration["MitRefDataVersion"])
+            {
+                seedData = true;
+                context.PackageVersion.First().VersionNumber = configuration["MitRefDataVersion"];
+            }
         }
 
         context.SeedData(context.InvoiceTypes, ReadSeedData<InvoiceType>($"{BaseDir}/RouteComponents/invoice-types.json"), seedData);
@@ -57,7 +64,7 @@ public static class SeedProvider
         context.SeedData(context.DeliveryBodyCodes, ReadSeedData<DeliveryBodyCode>($"{BaseDir}/Codes/delivery-body-codes.json"), seedData);
         context.SeedData(context.FundCodes, ReadSeedData<FundCode>($"{BaseDir}/Codes/fund-codes.json"), seedData);
 
-        RouteSeedData.AddRouteCodes(context);
+        RouteSeedData.AddRouteCodes(context, seedData);
 
         sw.Stop();
     }

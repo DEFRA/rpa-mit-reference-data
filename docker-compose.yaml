@@ -36,18 +36,18 @@ services:
       - postgres
     ports:
       - "5432:5432"
-    # volumes:
-    #   - ./scripts/extract-seed-data.sh:/home/postgres/extract-seed-data.sh
-    #   - ./seed-data-scripts:/home/postgres/seed-data-scripts/
+    volumes:
+      - ./scripts/extract-seed-data.sh:/home/postgres/extract-seed-data.sh
+      - ./seed-data-scripts:/home/postgres/seed-data-scripts/
 
-  # pgadmin:
-  #   image: dpage/pgadmin4:latest
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_MAIL-mit@defra.gov.uk}
-  #     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PW-password}
-  #   ports:
-  #     - "5050:80"
-  #   restart: always
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_MAIL-mit@defra.gov.uk}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PW-password}
+    ports:
+      - "5050:80"
+    restart: always
 
 networks:
   postgres:
