@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.10.1" />
+    <PackageReference Include="Azure.Identity" Version="1.10.4" />
     <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <Version>1.0.22</Version>
+    <Version>1.0.23</Version>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

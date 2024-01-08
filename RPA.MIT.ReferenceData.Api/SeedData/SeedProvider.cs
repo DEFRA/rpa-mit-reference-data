@@ -23,7 +23,8 @@ public static class SeedProvider
     /// </summary>
     /// <param name="context">context</param>
     /// <param name="configuration">configuration</param>
-    public static void SeedReferenceData(ReferenceDataContext context, IConfiguration configuration)
+    /// <param name="scriptWriter">scriptWriter</param>
+    public static void SeedReferenceData(ReferenceDataContext context, IConfiguration configuration, SQLscriptWriter? scriptWriter)
     {
         var sw = Stopwatch.StartNew();
 
@@ -31,41 +32,48 @@ public static class SeedProvider
         {
             // If prod allow LiquiBase to perform schema setup.
 
-            object[] parameters = Array.Empty<object>();
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS account_code_invoice_route", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS combinations", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS delivery_body_code_invoice_route", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS delivery_body_codes", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS fund_code_invoice_route", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_route_marketing_year_code", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_route_scheme_code", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_routes", parameters);
+            using (scriptWriter)
+            {
+                scriptWriter?.Open();
 
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS account_codes", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS fund_codes", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_types", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS marketing_year_codes", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS organisations", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS payment_types", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS scheme_codes", parameters);
-            context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS scheme_types", parameters);
+                object[] parameters = Array.Empty<object>();
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS account_code_invoice_route", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS combinations", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS delivery_body_code_invoice_route", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS delivery_body_codes", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS fund_code_invoice_route", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_route_marketing_year_code", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_route_scheme_code", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_routes", parameters);
 
-            context.Database.EnsureCreated();
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS account_codes", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS fund_codes", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS invoice_types", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS marketing_year_codes", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS organisations", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS payment_types", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS scheme_codes", parameters);
+                context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS scheme_types", parameters);
 
-            context.SeedData(context.InvoiceTypes, ReadSeedData<InvoiceType>($"{BaseDir}/RouteComponents/invoice-types.json"));
-            context.SeedData(context.Organisations, ReadSeedData<Organisation>($"{BaseDir}/RouteComponents/organisations.json"));
-            context.SeedData(context.SchemeTypes, ReadSeedData<SchemeType>($"{BaseDir}/RouteComponents/scheme-types.json"));
-            context.SeedData(context.PaymentTypes, ReadSeedData<PaymentType>($"{BaseDir}/RouteComponents/payment-types.json"));
+                context.Database.EnsureCreated();
 
-            context.SeedData(context.InvoiceRoutes, RouteSeedData.GetRoutes(context));
+                context.SeedData(context.InvoiceTypes, ReadSeedData<InvoiceType>($"{BaseDir}/RouteComponents/invoice-types.json"));
+                context.SeedData(context.Organisations, ReadSeedData<Organisation>($"{BaseDir}/RouteComponents/organisations.json"));
+                context.SeedData(context.SchemeTypes, ReadSeedData<SchemeType>($"{BaseDir}/RouteComponents/scheme-types.json"));
+                context.SeedData(context.PaymentTypes, ReadSeedData<PaymentType>($"{BaseDir}/RouteComponents/payment-types.json"));
 
-            context.SeedData(context.AccountCodes, ReadSeedData<AccountCode>($"{BaseDir}/Codes/account-codes.json"));
-            context.SeedData(context.SchemeCodes, ReadSeedData<SchemeCode>($"{BaseDir}/Codes/scheme-codes.json"));
-            context.SeedData(context.MarketingYearCodes, ReadSeedData<MarketingYearCode>($"{BaseDir}/Codes/marketing-years.json"));
-            context.SeedData(context.DeliveryBodyCodes, ReadSeedData<DeliveryBodyCode>($"{BaseDir}/Codes/delivery-body-codes.json"));
-            context.SeedData(context.FundCodes, ReadSeedData<FundCode>($"{BaseDir}/Codes/fund-codes.json"));
+                context.SeedData(context.InvoiceRoutes, RouteSeedData.GetRoutes(context));
 
-            RouteSeedData.AddRouteCodes(context);
+                context.SeedData(context.AccountCodes, ReadSeedData<AccountCode>($"{BaseDir}/Codes/account-codes.json"));
+                context.SeedData(context.SchemeCodes, ReadSeedData<SchemeCode>($"{BaseDir}/Codes/scheme-codes.json"));
+                context.SeedData(context.MarketingYearCodes, ReadSeedData<MarketingYearCode>($"{BaseDir}/Codes/marketing-years.json"));
+                context.SeedData(context.DeliveryBodyCodes, ReadSeedData<DeliveryBodyCode>($"{BaseDir}/Codes/delivery-body-codes.json"));
+                context.SeedData(context.FundCodes, ReadSeedData<FundCode>($"{BaseDir}/Codes/fund-codes.json"));
+
+                RouteSeedData.AddRouteCodes(context);
+
+                scriptWriter?.Close();
+            }
         }
 
         sw.Stop();
