@@ -24,9 +24,9 @@ namespace RPA.MIT.ReferenceData.Api
         /// <summary>
         /// Open the file stream
         /// </summary>
-        public void Open()
+        public void Open(string version)
         {
-            _streamWriter = new StreamWriter(_fileName, append:true);
+            _streamWriter = new StreamWriter(_fileName.Replace("{version}", version), append:true);
             _streamWriter.AutoFlush = true;
         }
 
