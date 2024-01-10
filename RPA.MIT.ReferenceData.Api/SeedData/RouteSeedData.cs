@@ -18,32 +18,30 @@ namespace RPA.MIT.ReferenceData.Api.SeedData;
 [ExcludeFromCodeCoverage]
 public static class RouteSeedData
 {
-    private const string MappingDefinitionFile = "Resources/SeedData/route-code-mapping.json";
-
     /// <summary>
     /// GetRoutes
     /// </summary>
     /// <param name="context">context</param>
+    /// /// <param name="filePath">filePath</param>
     /// <returns>Returns the routes.</returns>
-    public static List<InvoiceRoute> GetRoutes(ReferenceDataContext context)
+    public static List<InvoiceRoute> GetRoutes(ReferenceDataContext context, string filePath)
     {
         var routes = new List<InvoiceRoute>();
-
-        var executionPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-        using var stream = File.OpenRead(Path.Combine(executionPath, "Resources/SeedData/valid-routes.json"));
-        var json = JsonSerializer.Deserialize<JsonNode>(stream);
-
-        foreach (var route in json.AsArray())
+        if (File.Exists(filePath))
         {
-            var it = route[0].ToString();
-            var org = route[1].ToString();
-            var st = route[2].ToString();
-            var pt = route[3].ToString();
+            using var stream = File.OpenRead(filePath);
+            var json = JsonSerializer.Deserialize<JsonNode>(stream);
 
-            routes.Add(context.CreateRoute(it, org, st, pt));
+            foreach (var route in json.AsArray())
+            {
+                var it = route[0].ToString();
+                var org = route[1].ToString();
+                var st = route[2].ToString();
+                var pt = route[3].ToString();
+
+                routes.Add(context.CreateRoute(it, org, st, pt));
+            }
         }
-
         return routes;
     }
 
@@ -51,45 +49,43 @@ public static class RouteSeedData
     /// AddRouteCodes
     /// </summary>
     /// <param name="context">context</param>
-    public static void AddRouteCodes(ReferenceDataContext context)
+    /// <param name="routeJsonPath">routeJsonPath</param>
+
+    public static void AddRouteCodes(ReferenceDataContext context, string routeJsonPath)
     {
-        AddRouteCodes(context, MappingDefinitionFile);
-    }
-
-    private static void AddRouteCodes(ReferenceDataContext context, string routeJsonPath)
-    {
-        var executionPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-        using var stream = File.OpenRead(Path.Combine(executionPath, routeJsonPath));
-        var json = JsonSerializer.Deserialize<JsonNode>(stream);
-
-        var routes = context.InvoiceRoutes
-            .Include(r => r.InvoiceType)
-            .Include(r => r.Organisation)
-            .Include(r => r.SchemeCodes)
-            .Include(r => r.PaymentType)
-            .AsSplitQuery()
-            .ToArray();
-
-        foreach (var route in routes)
+        if (File.Exists(routeJsonPath))
         {
-            var it = route.InvoiceType.Code.ToLower();
-            var org = route.Organisation.Code.ToLower();
-            var st = route.SchemeType.Code.ToLower();
-            var pt = route.PaymentType.Code.ToLower();
+            using var stream = File.OpenRead(routeJsonPath);
+            var json = JsonSerializer.Deserialize<JsonNode>(stream);
 
-            var routeJson = json[it][org][st][pt];
+            var routes = context.InvoiceRoutes
+                .Include(r => r.InvoiceType)
+                .Include(r => r.Organisation)
+                .Include(r => r.SchemeCodes)
+                .Include(r => r.PaymentType)
+                .AsSplitQuery()
+                .ToArray();
 
-            LinkCodes(route, context.InvoiceRoutes, routeJson["schemes"], context.SchemeCodes, r => r.SchemeCodes);
-            LinkCodes(route, context.InvoiceRoutes, routeJson["marketingYears"], context.MarketingYearCodes, r => r.MarketingYearCodes);
-            LinkCodes(route, context.InvoiceRoutes, routeJson["deliveryBodies"], context.DeliveryBodyCodes, r => r.DeliveryBodyCodes);
-            LinkCodes(route, context.InvoiceRoutes, routeJson["funds"], context.FundCodes, r => r.FundCodes);
-            LinkCodes(route, context.InvoiceRoutes, routeJson["accounts"], context.AccountCodes, r => r.AccountCodes, AccountCodeMatcher<AccountCode>);
+            foreach (var route in routes)
+            {
+                var it = route.InvoiceType.Code.ToLower();
+                var org = route.Organisation.Code.ToLower();
+                var st = route.SchemeType.Code.ToLower();
+                var pt = route.PaymentType.Code.ToLower();
 
-            LinkCombinations(route, context, routeJson["coa"]);
+                var routeJson = json[it][org][st][pt];
+
+                LinkCodes(route, context.InvoiceRoutes, routeJson["schemes"], context.SchemeCodes, r => r.SchemeCodes);
+                LinkCodes(route, context.InvoiceRoutes, routeJson["marketingYears"], context.MarketingYearCodes, r => r.MarketingYearCodes);
+                LinkCodes(route, context.InvoiceRoutes, routeJson["deliveryBodies"], context.DeliveryBodyCodes, r => r.DeliveryBodyCodes);
+                LinkCodes(route, context.InvoiceRoutes, routeJson["funds"], context.FundCodes, r => r.FundCodes);
+                LinkCodes(route, context.InvoiceRoutes, routeJson["accounts"], context.AccountCodes, r => r.AccountCodes, AccountCodeMatcher<AccountCode>);
+
+                LinkCombinations(route, context, routeJson["coa"]);
+            }
+
+            context.SaveChanges();
         }
-
-        context.SaveChanges();
     }
 
     private static InvoiceRoute CreateRoute(this ReferenceDataContext context,

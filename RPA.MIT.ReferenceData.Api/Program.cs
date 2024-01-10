@@ -4,6 +4,7 @@ using RPA.MIT.ReferenceData.Api.Authentication;
 using RPA.MIT.ReferenceData.Api.Extensions;
 using RPA.MIT.ReferenceData.Api.SeedData;
 using RPA.MIT.ReferenceData.Data;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,7 @@ var isLocalDev = builder.Configuration.IsLocalDatabase(builder.Configuration);
 
 if (isLocalDev)
 {
-    _sqlScriptWriter = new SQLscriptWriter($"MIT_ReferenceData_Seed_SQL_{DateTime.Now.ToString("yyyyMMdd-HHmm")}.sql");
+    _sqlScriptWriter = new SQLscriptWriter($"MIT_ReferenceData_Seed_SQL_v{{version}}_{DateTime.Now.ToString("yyyyMMdd-HHmm")}.sql");
     createAndInsertSQLCommandInterceptor = new CreateAndInsertSqlCommandInterceptor(_sqlScriptWriter);
 }
 
@@ -51,7 +52,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ReferenceDataContext>();
 
-    SeedProvider.SeedReferenceData(db, builder.Configuration, _sqlScriptWriter);
+    SeedProvider.SeedReferenceData(db, builder.Configuration, _sqlScriptWriter, "1.0.5");
 }
 
 app.Run();

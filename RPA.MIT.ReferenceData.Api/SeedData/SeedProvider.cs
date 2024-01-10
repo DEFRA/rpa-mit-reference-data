@@ -15,16 +15,14 @@ namespace RPA.MIT.ReferenceData.Api.SeedData;
 [ExcludeFromCodeCoverage]
 public static class SeedProvider
 {
-    private const string BaseDir = "Resources/SeedData";
-    private static readonly string ExecutionPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
-
     /// <summary>
     /// SeedReferenceData
     /// </summary>
     /// <param name="context">context</param>
     /// <param name="configuration">configuration</param>
     /// <param name="scriptWriter">scriptWriter</param>
-    public static void SeedReferenceData(ReferenceDataContext context, IConfiguration configuration, SQLscriptWriter? scriptWriter)
+    /// <param name="version">version of seed data</param>
+    public static void SeedReferenceData(ReferenceDataContext context, IConfiguration configuration, SQLscriptWriter? scriptWriter, string version)
     {
         var sw = Stopwatch.StartNew();
 
@@ -32,9 +30,26 @@ public static class SeedProvider
         {
             // If prod allow LiquiBase to perform schema setup.
 
+            // 1) ensure nuget.exe is downloaded installed (placed in system32)
+            // 2) from cmd prompt, navigate to the solution folder, e.g.
+            //        cd C:\Users\<userid>\source\repos\DEFRA\rpa-mit-reference-data
+            // 3) at the command prompt, run:
+            //        nuget install "RPA.MIT.ReferenceData" - source "DEFRA-EST" - version "1.0.5" (Where version is the package version)
+            // this should install the package files to
+            //        C:\Users\<userid>\source\repos\DEFRA\rpa-mit-reference-data\RPA.MIT.ReferenceData.1.0.5
+            // the BaseDir is set to load the seed data from there.
+            // 4) After seeding locally, the database should be created and populated and the SQL scripts to be run on the server should be saved to:
+            //        C:\Users\<userid>\source\repos\DEFRA\rpa-mit-reference-data\RPA.MIT.ReferenceData.Api
+
+            var BaseDirRelativeToExecutionPath = $"..\\..\\..\\..\\RPA.MIT.ReferenceData.{version}\\contentFiles\\any\\any\\Resources\\SeedData";
+
+            var ExecutionPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+
+            var BaseDir = Path.Combine(ExecutionPath, BaseDirRelativeToExecutionPath);
+
             using (scriptWriter)
             {
-                scriptWriter?.Open();
+                scriptWriter?.Open(version);
 
                 object[] parameters = Array.Empty<object>();
                 context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS account_code_invoice_route", parameters);
@@ -62,7 +77,7 @@ public static class SeedProvider
                 context.SeedData(context.SchemeTypes, ReadSeedData<SchemeType>($"{BaseDir}/RouteComponents/scheme-types.json"));
                 context.SeedData(context.PaymentTypes, ReadSeedData<PaymentType>($"{BaseDir}/RouteComponents/payment-types.json"));
 
-                context.SeedData(context.InvoiceRoutes, RouteSeedData.GetRoutes(context));
+                context.SeedData(context.InvoiceRoutes, RouteSeedData.GetRoutes(context, $"{BaseDir}/valid-routes.json"));
 
                 context.SeedData(context.AccountCodes, ReadSeedData<AccountCode>($"{BaseDir}/Codes/account-codes.json"));
                 context.SeedData(context.SchemeCodes, ReadSeedData<SchemeCode>($"{BaseDir}/Codes/scheme-codes.json"));
@@ -70,7 +85,7 @@ public static class SeedProvider
                 context.SeedData(context.DeliveryBodyCodes, ReadSeedData<DeliveryBodyCode>($"{BaseDir}/Codes/delivery-body-codes.json"));
                 context.SeedData(context.FundCodes, ReadSeedData<FundCode>($"{BaseDir}/Codes/fund-codes.json"));
 
-                RouteSeedData.AddRouteCodes(context);
+                RouteSeedData.AddRouteCodes(context, $"{BaseDir}/route-code-mapping.json");
 
                 scriptWriter?.Close();
             }
@@ -89,17 +104,20 @@ public static class SeedProvider
     public static void SeedData<T>(this DbContext context, DbSet<T> entity, IEnumerable<T> data)
         where T : class
     {
-        if (entity.Any()) return;
+        if (data is null || entity.Any()) return;
 
         entity.AddRange(data);
 
         context.SaveChanges();
     }
 
-    private static IEnumerable<T> ReadSeedData<T>(string path)
+    private static IEnumerable<T> ReadSeedData<T>(string filePath)
     {
-        var raw = File.ReadAllText(Path.Combine(ExecutionPath, path));
-
-        return JsonSerializer.Deserialize<IEnumerable<T>>(raw)!;
+        if (File.Exists(filePath))
+        {
+            var raw = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<IEnumerable<T>>(raw)!;
+        }
+        return null!;
     }
 }
