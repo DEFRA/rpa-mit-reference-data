@@ -1,0 +1,48 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rpa-mit-reference-data
+  description: The MIT Reference data API
+  annotations:
+    github.com/project-slug: defra/rpa-mit-reference-data
+    dev.azure.com/project: DEFRA-MIT
+    dev.azure.com/build-definition: rpa-mit-reference-data
+    sonarqube.org/project-key: rpa-mit-reference-data
+    grafana/dashboard-selector: "folderTitle == 'Managed Prometheus'"
+    backstage.io/kubernetes-id: rpa-mit-reference-data
+  links:
+    - url: https://github.com/DEFRA/rpa-mit-reference-data
+      title: View repository
+      icon: github
+    - url: https://sonarcloud.io/summary/overall?id=rpa-mit-reference-data
+      title: SonarCloud Analysis
+    - url: https://snyk.io/test/github/DEFRA/rpa-mit-reference-data
+      title: Snyk Analysis
+  tags:
+    - dotnet
+    - back-end
+    - service-bus
+    - storage-account
+    - application-insights
+spec:
+  type: backend
+  lifecycle: alpha
+  owner: "group:default/lap-mit"
+  system: "system:default/lap-mit-system"
+  dependsOn:
+    - "resource:default/rpa-mit-reference-data-database"
+    - "resource:default/ADPINFAI01"
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: rpa-mit-reference-data-database
+  description: Database for MIT reference data.
+  tags:
+    - postgresql
+spec:
+  type: database
+  owner: "group:default/lap-mit"
+  system: "system:default/lap-mit-system"
+  dependsOn:
+    - "resource:default/adpdbsps01"
