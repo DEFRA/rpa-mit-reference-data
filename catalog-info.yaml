@@ -21,8 +21,7 @@ metadata:
   tags:
     - dotnet
     - back-end
-    - service-bus
-    - storage-account
+    - database
     - application-insights
 spec:
   type: backend
