@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using RPA.MIT.ReferenceData.Api;
 using RPA.MIT.ReferenceData.Api.Authentication;
 using RPA.MIT.ReferenceData.Api.Extensions;
-using RPA.MIT.ReferenceData.Api.SeedData;
 using RPA.MIT.ReferenceData.Data;
 using System.Diagnostics;
 
@@ -46,13 +45,5 @@ var app = builder.Build();
 
 app.UseReferenceDataEndpoints();
 app.UseSwaggerEndpoints();
-
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ReferenceDataContext>();
-
-    SeedProvider.SeedReferenceData(db, builder.Configuration, _sqlScriptWriter, "1.0.5");
-}
 
 app.Run();
