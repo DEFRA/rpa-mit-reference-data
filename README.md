@@ -1,58 +1,93 @@
-# RPA-MIT-ReferenceData
-A minimal api for supplying invoice template reference data (.NET 6)
+# rpa-mit-reference-data
 
-## Running Application
-### Requirements
-* Git
-* .NET 6 SDK
-* PostgreSQL
-* **Optional:** Docker - Only needed if running PostgreSQL within container
+This repository hosts a minimal API developed using .NET 8, designed to supply invoice template reference data that ensures that only valid manual invoices can be produced.
+## Requirements
 
-### PostgreSQL
-Execute the following commands to run Postgres inside a docker container:
-```ps
+-  .NET 8 SDK - amend as needed for your distro
+```bash
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+```
+-  EF Core Tools
+```bash
+dotnet tool install --global dotnet-ef
+```
+-  PostgreSQL database
+-  [Docker](https://docs.docker.com/engine/install/debian/) - amend as needed for your distro
+---
+## Create the database
+
+Create the postgres database in docker
+
+```bash
 docker pull postgres
-docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+```
+```bash
+docker run --name MY_POSTGRES_DB -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
 ```
 
-Or install a standalone instance using the following link:
+---
+## Local Setup
 
-[PostgreSQL: Windows installers](https://www.postgresql.org/download/windows/)
+To run this service locally complete the following steps.
+### Set up user secrets
 
-### EF Core Tools
-Follow this guide to install EF Core global tools:
+Use the secrets-template to create a secrets.json in the same folder location as the [RPA.MIT.ReferenceData.Api.csproj](https://github.com/DEFRA/rpa-mit-reference-data/blob/main/RPA.MIT.ReferenceData.Api/RPA.MIT.ReferenceData.Api.csproj "RPA.MIT.ReferenceData.Api.csproj") file. 
 
-[Entity Framework Core tools reference - .NET Core CLI](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
+Some **example** values might be
 
-### Environment Variables
-The following environment variables are required by the application.
-
-| Name              	| Description                         	| Default                         	|
-|-------------------	|-------------------------------------	|---------------------------------	|
-| POSTGRES_HOST     	| Hostname of the Postgres server     	| rpa-mit-reference-data-postgres 	|
-| POSTGRES_DB       	| Name of the reference data database 	| rpa_mit_reference_data          	|
-| POSTGRES_USER     	| Postgres username                   	| postgres                        	|
-| POSTGRES_PASSWORD 	| Postgres password                   	| password                        	|
-| POSTGRES_PORT     	| Postgres server port                	| 5432                            	|
-| SCHEMA_DEFAULT    	| Default schema name                 	| public                          	|
-
-When running using Docker / Docker Compose these values are populated from environment variables.
-
-If running locally using `dotnet run` the values are populated from dotnet user-secrets. Please see [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows)
-
-### Setup Database
-This project uses EF Core to handle database migrations. Run the following command to update migrations on database.
-
-```ps
-dotnet ef database update --project .\RPA.MIT.ReferenceData.Api
+```json
+{
+    "POSTGRES_HOST": "local",
+    "POSTGRES_PORT": "5432",
+    "POSTGRES_DB": "my db",
+    "POSTGRES_USER": "username",
+    "POSTGRES_PASSWORD": "password",
+    "AzureADPostgreSQLResourceID": "https://ossrdbms-aad.database.windows.net/.default",
+    "DbConnectionTemplate": "Server={0};Port={1};Database={2};User Id={3};Password={4};"
+}
 ```
 
-### Starting Api
-```ps
+Once this is done run the following command to add the projects user secrets
+
+```bash
+cat secrets.json | dotnet user-secrets set
+```
+
+These values can also be created as environment variables or as a development app settings file.
+
+### Apply DB migrations
+
+We use EF Core to handle database migrations. Run the following command to update migrations on database.
+
+**NOTE** - You will need to create the database in postgres before migrating.
+
+```bash
+dotnet ef database update
+```
+
+### Start the Api
+
+```bash
 cd RPA.MIT.ReferenceData.Api
+```
+```bash
 dotnet run
 ```
 
-Endpoints are accessible at https://localhost:7012.
 
-Swagger page is accessible at https://localhost:7012/swagger/index.html.
+---
+## Running in Docker
+
+To create the application as a docker container run the following command in the parent directory.
+
+```bash
+docker compose up
+```
+
+---
+## Endpoints
+
+API Endpoints are avaliable from [https://localhost:7012](https://localhost:7012).
+Swagger is also available in developement environments from [https://localhost:7012/swagger](https://localhost:7012/swagger)
