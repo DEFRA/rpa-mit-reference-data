@@ -1,6 +1,9 @@
 # rpa-mit-reference-data
 
 This repository hosts a minimal API developed using .NET 8, designed to supply invoice template reference data that ensures that only valid manual invoices can be produced.
+
+The api is called from other MIT components when scheme data is needed, for example a scheme code could be passed in to the api and a list of valid options for that code are returned.
+
 ## Requirements
 
 -  .NET 8 SDK - amend as needed for your distro
