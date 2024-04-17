@@ -6,7 +6,9 @@ The api is called from other MIT components when scheme data is needed, for exam
 
 ## Requirements
 
--  .NET 8 SDK - amend as needed for your distro
+Amend as needed for your distribution, this assumes you are using windows with WSL.
+
+-  .NET 8 SDK
 ```bash
 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
@@ -17,7 +19,7 @@ sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
 dotnet tool install --global dotnet-ef
 ```
 -  PostgreSQL database
--  [Docker](https://docs.docker.com/engine/install/debian/) - amend as needed for your distro
+-  [Docker](https://docs.docker.com/desktop/install/linux-install/)
 ---
 ## Create the database
 
@@ -58,7 +60,7 @@ Once this is done run the following command to add the projects user secrets
 cat secrets.json | dotnet user-secrets set
 ```
 
-These values can also be created as environment variables or as a development app settings file.
+These values can also be created as environment variables or as a development app settings file, but the preferred method is via user secrets.
 
 ### Apply DB migrations
 
@@ -92,5 +94,70 @@ docker compose up
 ---
 ## Endpoints
 
-API Endpoints are avaliable from [https://localhost:7012](https://localhost:7012).
-Swagger is also available in developement environments from [https://localhost:7012/swagger](https://localhost:7012/swagger)
+### HTTP
+
+#### Accounts
+Retrieves a list of valid account codes based on the provided filters.
+```http
+GET /accounts/{invoiceType?}/{organisation?}/{schemeType?}/{paymentType?}
+```
+
+#### Combinations
+Retrieves a list of valid combinations of account/scheme and delivery body codes based on the provided filters.
+```http
+GET /combinations/{invoiceType?}/{organisation?}/{schemeType?}/{paymentType?}
+```
+
+#### Delivery Body Codes
+Retrieves a list of valid delivery body codes based on the provided filters.
+```http
+GET /deliveryBodies/{invoiceType?}/{organisation?}/{schemeType?}/{paymentType?}
+```
+
+#### Fund Codes
+Retrieves a list of valid fund codes based on the provided filters.
+```http
+GET /funds/{invoiceType?}/{organisation?}/{schemeType?}/{paymentType?}
+```
+
+#### Marketing Year Codes
+Retrieves a list of valid marketing year codes based on the provided filters.
+```http
+GET /marketingYears/{invoiceType?}/{organisation?}/{schemeType?}/{paymentType?}
+```
+
+#### Scheme Codes
+Retrieves a list of valid scheme codes based on the provided filters.
+```http
+GET /schemes/{invoiceType?}/{organisation?}/{schemeType?}/{paymentType?}
+```
+
+#### Invoice Type Codes
+Retrieves a list of all valid invoice type codes.
+```http
+GET /invoiceTypes
+```
+
+#### Organisation Codes
+Retrieves a list of all valid organisation codes, can be filtered by invoice type.
+```http
+GET /organisations
+```
+
+#### Payment Type Codes
+Retrieves a list of all valid payment type codes, can be filtered by invoice type and/or organisation.
+```http
+GET /paymentTypes
+```
+
+#### Scheme Type Codes
+Retrieves a list of all valid scheme type codes, can be filtered by invoice type and/or organisation.
+```http
+GET /schemeTypes
+```
+
+#### Swagger
+Swagger is also available in developement environments
+```http
+/swagger
+```
