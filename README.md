@@ -8,16 +8,28 @@ The api is called from other MIT components when scheme data is needed, for exam
 
 Amend as needed for your distribution, this assumes you are using windows with WSL.
 
--  .NET 8 SDK
-```bash
-wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
-```
--  EF Core Tools
-```bash
-dotnet tool install --global dotnet-ef
-```
+- <details>
+    <summary> .NET 8 SDK </summary>
+    
+    #### Basic instructions for installing the .NET 8 SDK on a debian based system.
+  
+    Amend as needed for your distribution.
+
+    ```bash
+    wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+    ```
+</details>
+
+- <details>
+    <summary> EF Core Tools </summary>
+    
+    ```bash
+    dotnet tool install --global dotnet-ef
+    ```
+</details>
+
 -  PostgreSQL database
 -  [Docker](https://docs.docker.com/desktop/install/linux-install/)
 ---
