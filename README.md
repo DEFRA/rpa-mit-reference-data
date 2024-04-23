@@ -1,9 +1,8 @@
 # rpa-mit-reference-data
 
-This repository hosts a minimal API developed using .NET 8, designed to supply invoice template reference data that ensures that only valid manual invoices can be produced.
+This repository hosts a minimal API, designed to supply invoice template reference data that ensures that only valid manual invoices can be produced, these endpoints help in querying different data sets related to the invoices and their respective codes in the system. Each endpoint is designed to return data in a structured format based on the query parameters provided.
 
-The api is called from other MIT components when scheme data is needed, for example a scheme code could be passed in to the api and a list of valid options for that code are returned.
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rpa-mit-reference-data&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rpa-mit-reference-data) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=rpa-mit-reference-data&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=rpa-mit-reference-data) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rpa-mit-reference-data&metric=coverage)](https://sonarcloud.io/summary/new_code?id=rpa-mit-reference-data) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=rpa-mit-reference-data&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=rpa-mit-reference-data)
 ## Requirements
 
 Amend as needed for your distribution, this assumes you are using windows with WSL.
@@ -40,6 +39,7 @@ Create the postgres database in docker
 ```bash
 docker pull postgres
 ```
+
 ```bash
 docker run --name MY_POSTGRES_DB -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
 ```
@@ -52,15 +52,10 @@ To run this service locally complete the following steps.
 
 Use the secrets-template to create a secrets.json in the same folder location as the [RPA.MIT.ReferenceData.Api.csproj](https://github.com/DEFRA/rpa-mit-reference-data/blob/main/RPA.MIT.ReferenceData.Api/RPA.MIT.ReferenceData.Api.csproj "RPA.MIT.ReferenceData.Api.csproj") file. 
 
-Some **example** values might be
+**Example** values that work in local environments for these 2 keys.
 
 ```json
 {
-    "POSTGRES_HOST": "local",
-    "POSTGRES_PORT": "5432",
-    "POSTGRES_DB": "my db",
-    "POSTGRES_USER": "username",
-    "POSTGRES_PASSWORD": "password",
     "AzureADPostgreSQLResourceID": "https://ossrdbms-aad.database.windows.net/.default",
     "DbConnectionTemplate": "Server={0};Port={1};Database={2};User Id={3};Password={4};"
 }
@@ -89,6 +84,7 @@ dotnet ef database update
 ```bash
 cd RPA.MIT.ReferenceData.Api
 ```
+
 ```bash
 dotnet run
 ```
@@ -169,7 +165,9 @@ GET /schemeTypes
 ```
 
 #### Swagger
-Swagger is also available in developement environments
+
+Swagger is also available in development environments with more detailed information on the endpoints and their expected payloads.
 ```http
 /swagger
 ```
+
