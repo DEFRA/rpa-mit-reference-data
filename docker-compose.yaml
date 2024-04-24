@@ -11,8 +11,6 @@ services:
         - PACKAGE_FEED_PAT=${PACKAGE_FEED_PAT}
     image: rpa-mit-reference-data
     container_name: rpa-mit-reference-data
-    depends_on:
-      - rpa-mit-reference-data-postgres
     environment:
       COMPlus_EnableDiagnostics: 0
       POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-reference-data-postgres}
@@ -22,33 +20,4 @@ services:
       POSTGRES_PORT: "5432"
       SCHEMA_DEFAULT: ${POSTGRES_SCHEMA_NAME:-public}
     ports:
-      - "3000:3000"
-    networks:
-      - postgres
-
-  rpa-mit-reference-data-postgres:
-    image: postgres:15.3-alpine
-    environment:
-      POSTGRES_DB: rpa_mit_reference_data
-      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
-    networks:
-      - postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./scripts/extract-seed-data.sh:/home/postgres/extract-seed-data.sh
-      - ./seed-data-scripts:/home/postgres/seed-data-scripts/
-
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_MAIL-mit@defra.gov.uk}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PW-password}
-    ports:
-      - "5050:80"
-    restart: always
-
-networks:
-  postgres:
-    driver: bridge
+      - "5002:5002"
