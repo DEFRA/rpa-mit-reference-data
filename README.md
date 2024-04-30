@@ -1,4 +1,4 @@
-# rpa-mit-reference-data
+# Reference Data
 
 This repository hosts a minimal API, designed to supply invoice template reference data that ensures that only valid manual invoices can be produced, these endpoints help in querying different data sets related to the invoices and their respective codes in the system. Each endpoint is designed to return data in a structured format based on the query parameters provided.
 
@@ -50,7 +50,7 @@ docker run --name MY_POSTGRES_DB -e POSTGRES_PASSWORD=password -p 5432:5432 -d p
 To run this service locally complete the following steps.
 ### Set up user secrets
 
-Use the secrets-template to create a secrets.json in the same folder location as the [RPA.MIT.ReferenceData.Api.csproj](https://github.com/DEFRA/rpa-mit-reference-data/blob/main/RPA.MIT.ReferenceData.Api/RPA.MIT.ReferenceData.Api.csproj "RPA.MIT.ReferenceData.Api.csproj") file. 
+Use the secrets-template to create a secrets.json in the same folder location.
 
 **Example** values that work in local environments for these 2 keys.
 
