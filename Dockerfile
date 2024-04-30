@@ -1,18 +1,11 @@
 ARG PARENT_VERSION=1.5.0-dotnet6.0
 
 # Development
-FROM defradigital/dotnetcore-development:$PARENT_VERSION AS development
-
-ARG PARENT_VERSION
-ARG PACKAGE_FEED_URL
-ARG PACKAGE_FEED_USERNAME
-ARG PACKAGE_FEED_PAT
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS development
 
 LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
 RUN mkdir -p /home/dotnet/RPA.MIT.ReferenceData.Data/ /home/dotnet/RPA.MIT.ReferenceData.Api/ /home/dotnet/RPA.MIT.ReferenceData.Api.Test/
-
-COPY --chown=dotnet:dotnet ./docker-nuget.config ./nuget.config
 
 COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Data/*.csproj ./RPA.MIT.ReferenceData.Data/
 RUN dotnet restore ./RPA.MIT.ReferenceData.Data/RPA.MIT.ReferenceData.Data.csproj
@@ -29,21 +22,32 @@ COPY --chown=dotnet:dotnet ./RPA.MIT.ReferenceData.Api.Test/ ./RPA.MIT.Reference
 
 RUN dotnet publish ./RPA.MIT.ReferenceData.Api/ -c Release -o /home/dotnet/out
 
-ARG PORT=3000
+ARG PORT=5002
 ENV PORT ${PORT}
 EXPOSE ${PORT}
 
 CMD dotnet watch --project ./RPA.MIT.ReferenceData.Api run --urls "http://*:${PORT}"
 
+# db_migration
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS db_migration
+
+COPY --from=development / ./
+
+RUN dotnet tool install --global dotnet-ef
+ENV PATH $PATH:/root/.dotnet/tools
+
+WORKDIR /RPA.MIT.ReferenceData.Api/
+CMD dotnet ef database update
+
 # Production
-FROM defradigital/dotnetcore:$PARENT_VERSION AS production
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS production
 
 ARG PARENT_VERSION
 ARG PARENT_REGISTRY
 
 LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
-ARG PORT=3000
+ARG PORT=5002
 ENV ASPNETCORE_URLS=http://*:${PORT}
 EXPOSE ${PORT}
 
